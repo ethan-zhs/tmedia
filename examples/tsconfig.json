@@ -1,0 +1,30 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "esnext",
+        "target": "es5",
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": false,
+        "moduleResolution": "node",
+        "allowJs": true,
+        "noUnusedParameters": false,
+        "paths": {
+            "@src/*": ["src/*"]
+        },
+        "baseUrl": "./",
+        "lib": [
+            "dom",
+            "esnext"
+        ]
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}

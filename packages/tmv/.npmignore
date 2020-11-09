@@ -1,0 +1,14 @@
+/.vscode
+/node_modules
+
+/src
+/config
+
+postcss.config.js
+tsconfig.json
+babel.config.js
+
+.eslintignore
+.gitignore
+.npmignore
+.npmrc

@@ -1,0 +1,32 @@
+{
+  "name": "tmedia",
+  "version": "1.0.0",
+  "description": "A project is used to generate touchds components",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "publish": "lerna publish",
+    "build": "lerna run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "lerna": "^3.21.0",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.2"
+  },
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

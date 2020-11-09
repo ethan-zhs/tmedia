@@ -1,0 +1,7 @@
+/dist/
+/node_modules/
+/.vscode/
+
+babel.config.js
+postcss.config.js
+.prettierrc.js

@@ -1,0 +1,74 @@
+@theme-color: #2483ff;
+@theme-font-color: #bcc9d4;
+@theme-font-color-desc: #5c6366;
+
+@theme-border-color: #0b0c0d;
+
+.primary-button {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: background 0.3s;
+  border: 1px solid @theme-color;
+  cursor: pointer;
+  color: @theme-color;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 0 20px;
+  outline: none;
+
+  &:hover {
+    background: @theme-color;
+    color: #fff;
+  }
+}
+
+.theme-box-hover {
+  transition: border 0.2s;
+
+  &:hover {
+    border: 1px solid @theme-color;
+  }
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-word;
+}
+
+@gui-primary-color: #2483ff;
+@gui-error-color: #ff4f43;
+@gui-hover-color: #26a5ff;
+@gui-active-color: #2693ff;
+@gui-disabled-color: #424447;
+@gui-background-color-front: hsl(215, 15%, 13%);
+@gui-background-color-front-lighter: hsl(215, 15%, 28%);
+@gui-background-color-back: hsl(215, 15%, 8%);
+@gui-background-color-back-darker: hsl(0, 0%, 0%);
+@gui-background-hover-color: #1b3964;
+@gui-component-background-color: #262c33;
+@gui-component-background-color-darker: #262c33;
+@gui-component-background-hover-color: #303640;
+@gui-component-background-active-color: #262b33;
+@gui-component-background-disabled-color: #13161a;
+@gui-font-color-base: #a1aeb3;
+@gui-font-color-1: #fff;
+@gui-font-color-2: #c3d3d9;
+@gui-font-color-3: #737c80;
+@gui-font-color-description: #5c6366;
+@gui-font-color-disabled: #424447;
+@gui-border-color: rgba(52, 52, 52, 0.5);
+@gui-component-border-color: #0b0c0d;
+@gui-cover-color: rgba(0, 0, 0, 0.75);
+@gui-component-slider-track-color: linear-gradient(to right, #74f0ff, #2681ff);
+@gui-disabled-opacity: 0.5;
+@gui-popover-shadow: 0 0 4px #000;
+@gui-font-size-base: 12px;
+@gui-icon-size-md: 14px;
+@gui-component-border: 1px solid var(--gui-component-border-color);
+@gui-transition-time: 0.3s;
+@gui-transition-easing: ease-in-out;

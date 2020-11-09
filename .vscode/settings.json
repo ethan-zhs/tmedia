@@ -1,0 +1,14 @@
+{
+    "eslint.enable": true,  //是否开启vscode的eslint
+    "eslint.options": {    //指定vscode的eslint所处理的文件的后缀
+        "extensions": [
+            ".js",
+            ".ts",
+            ".tsx",
+            ".vue"
+        ]
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
+}
