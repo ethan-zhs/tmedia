@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import TestVideo from '@tmedia/video-player/src/VueApp.vue'
-import TestAudio from '@tmedia/audio-player/src/VueApp.vue'
+import TestVideo from '@tmedia/tmv/src/VueApp.vue'
+import TestAudio from '@tmedia/tma/src/VueApp.vue'
 
 export default {
     name: 'app',

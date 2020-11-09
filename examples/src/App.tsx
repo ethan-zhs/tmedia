@@ -1,7 +1,7 @@
 import React from 'react'
 
-import TestVideo from '@tmedia/video-player/src/ReactApp'
-import TestAudio from '@tmedia/audio-player/src/ReactApp'
+import TestVideo from '@tmedia/tmv/src/ReactApp'
+import TestAudio from '@tmedia/tma/src/ReactApp'
 
 export default class App extends React.Component<any, any> {
     constructor(props: any) {

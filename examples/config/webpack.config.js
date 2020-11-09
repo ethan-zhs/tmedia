@@ -26,11 +26,7 @@ module.exports = {
                         }
                     }
                 ],
-                include: [
-                    resolve('src'),
-                    resolve('../packages/video-player/src'),
-                    resolve('../packages/audio-player/src')
-                ]
+                include: [resolve('src'), resolve('../packages/tma/src'), resolve('../packages/tmv/src')]
             },
             {
                 test: /\.(tsx|ts)$/,
@@ -43,11 +39,7 @@ module.exports = {
                     },
                     'ts-loader'
                 ],
-                include: [
-                    resolve('src'),
-                    resolve('../packages/video-player/src'),
-                    resolve('../packages/audio-player/src')
-                ]
+                include: [resolve('src'), resolve('../packages/tma/src'), resolve('../packages/tmv/src')]
             },
             {
                 test: /\.vue$/,
@@ -61,11 +53,7 @@ module.exports = {
                         }
                     }
                 ],
-                include: [
-                    resolve('src'),
-                    resolve('../packages/video-player/src'),
-                    resolve('../packages/audio-player/src')
-                ]
+                include: [resolve('src'), resolve('../packages/tma/src'), resolve('../packages/tmv/src')]
             },
             {
                 test: /\.css$/,
@@ -79,11 +67,7 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: ['vue-style-loader', 'style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
-                include: [
-                    resolve('src'),
-                    resolve('../packages/video-player/src'),
-                    resolve('../packages/audio-player/src')
-                ]
+                include: [resolve('src'), resolve('../packages/tma/src'), resolve('../packages/tmv/src')]
             },
             {
                 test: /\.(jpe?g|png|ico|gif|woff|woff2|eot|ttf|otf|svg|swf)$/,
@@ -96,11 +80,7 @@ module.exports = {
                         }
                     }
                 ],
-                include: [
-                    resolve('src'),
-                    resolve('../packages/video-player/src'),
-                    resolve('../packages/audio-player/src')
-                ]
+                include: [resolve('src'), resolve('../packages/tma/src'), resolve('../packages/tmv/src')]
             }
         ]
     },

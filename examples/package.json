@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "npm run link && webpack-dev-server --config ./config/webpack.config.js --open",
-        "link": "npm link ../packages/audio-player && npm link ../packages/video-player"
+        "link": "npm link ../packages/tma && npm link ../packages/tmv"
     },
     "author": "",
     "license": "ISC",
