@@ -1,0 +1,62 @@
+.tmv-setting {
+    width: 40px;
+    height: 40px;
+    
+    .tmv-popover-mark {
+        padding-bottom: 33px;
+        right: -40px;
+        transform: translateX(0);
+    }
+
+    .tmv-setting-btn {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+
+        .tm-svg-fill {
+            fill: #fff;
+        }
+    }
+
+    .tmv-setting-item {
+        display: flex;
+        height: 35px;
+        padding: 0 20px;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        font-size: 12px;
+        width: 180px;
+
+        &:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .tmv-switch {
+            width: 35px;
+            height: 15px;
+            background: #777;
+            border-radius: 7.5px;
+            display: flex;
+            align-items: center;
+
+
+            .tmv-switch-point {
+                background: #ccc;
+                width: 15px;
+                height: 15px;
+                border-radius: 7.5px;
+                margin-left: 0;
+            }
+        }
+
+        .tmv-switch-active {
+            background: #ff3232;
+
+            .tmv-switch-point {
+                background: #fff;
+                margin-left: 20px;
+            }
+        }
+    }
+}

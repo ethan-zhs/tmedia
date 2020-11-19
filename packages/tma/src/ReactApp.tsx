@@ -2,7 +2,7 @@
 import * as React from 'react'
 import './index.less'
 
-class App extends React.Component<any, any> {
+class Tmar extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
     }
@@ -16,4 +16,4 @@ class App extends React.Component<any, any> {
     }
 }
 
-export default App
+export default Tmar

@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <video src="" controls></video>
-    </div>    
+    <div class="tmv-video-wrapper">
+        <video class="tmv-video" src="" controls></video>
+    </div>  
 </template>
 
 <script>

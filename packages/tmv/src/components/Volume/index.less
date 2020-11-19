@@ -1,0 +1,57 @@
+.tmv-controls-volume {
+    width: 40px;
+    height: 40px;    
+    position: relative;
+
+    .tmv-popover-mark {
+        padding-bottom: 33px;
+    }
+
+    .tmv-controls-volume-btn {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+
+        .tm-svg-fill {
+            fill: #fff;
+        }
+    }
+}
+
+.tmv-volume-slider {
+    width: 40px;
+    height: 100px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .tmv-volume-slider-base {
+        position: relative;
+        width: 4px; 
+        background: rgba(255,255,255,.2);
+        height: 80px;
+        cursor: pointer;
+
+        .tmv-volume-slider-percent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%; 
+            background: rgba(255,255,255,.8);
+            height: 50%;
+
+            .tmv-volume-slider-point {
+                content: '';
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: -5px;
+                width: 10px;
+                height: 10px;
+                background: #fff;
+                border-radius: 100%;
+            }
+        }
+    }
+}

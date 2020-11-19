@@ -4,7 +4,7 @@
     "description": "test111",
     "main": "index.js",
     "scripts": {
-        "start": "npm run link && webpack-dev-server --config ./config/webpack.config.js --open",
+        "start": "npm run link && webpack-dev-server --disableHostCheck=true --config ./config/webpack.config.js --open",
         "link": "npm link ../packages/tma && npm link ../packages/tmv"
     },
     "author": "",

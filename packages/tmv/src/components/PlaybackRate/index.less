@@ -1,0 +1,43 @@
+.tmv-playbackrate {
+    font-size: 13px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+
+    .tmv-playbackrate-btn {
+        padding: 5px 10px;
+        background: rgba(0,0,0,0.4);
+        border-radius: 100px;
+        cursor: pointer;
+        line-height: 1em;
+
+        &:hover {
+            background: rgba(0,0,0,0.6);
+        }
+    }
+}
+
+.tmv-playbackrate-list {
+
+    .tmv-playbackrate-item {
+        font-size: 12px;
+        text-align: center;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        width: 80px;
+        padding: 0 10px;
+
+        &:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        &.tmv-playbackrate-item-active {
+            color: #ff3232;
+        }
+    }
+}
