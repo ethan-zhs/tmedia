@@ -13,6 +13,7 @@ module.exports = function (api) {
                         "not dead"
                     ]
                 },
+                "corejs": 3,
                 "useBuiltIns": "usage"
             }],
             "@babel/preset-react",

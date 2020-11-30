@@ -2,8 +2,12 @@ import * as React from 'react'
 import classNames from 'classnames'
 import './index.less'
 
-class NextVideo extends React.Component<any, any> {
-    constructor(props: any) {
+interface IProps {
+    toNextVideo: () => void
+}
+
+class NextVideo extends React.Component<IProps, any> {
+    constructor(props: IProps) {
         super(props)
     }
 

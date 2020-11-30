@@ -1,6 +1,11 @@
 import * as React from 'react'
 import './index.less'
 
+interface IProps {
+    isPlaying: boolean
+    handleVideoPlay: () => void
+}
+
 class PlayBtn extends React.Component<any, any> {
     constructor(props: any) {
         super(props)

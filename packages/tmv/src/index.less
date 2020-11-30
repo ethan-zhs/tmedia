@@ -1,47 +1,26 @@
 .tmv-video-wrapper {
     font-family: 'PingFang SC', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
     user-select: none;
-    position: relative;
     align-items: center;
     justify-content: center;
+    position: relative;
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 0;
+    padding-bottom: calc(100% * 9 / 16);
+
+    &.tmv-video-wrapper-fullscreen {
+        height: 100vh;
+        padding-bottom: 0;
+    }
 
     .tmv-video {
         background: #222;
         object-fit: cover;
         width: 100%;
         height: 100%;
-    }
-
-    .tmv-poster {
-        width: 100%;
-        height: 100%;
         position: absolute;
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
         top: 0;
         left: 0;
-    }
-
-    .tmv-big-play-btn-mask {
-        position: absolute;
-        background-color: rgba(0,0,0,0.4);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .tmv-big-play-btn {            
-            width: 18%;
-            height: 18%;
-            background-image: url('./assets/images/play_btn_big.png');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            cursor: pointer;
-        }
     }
 }

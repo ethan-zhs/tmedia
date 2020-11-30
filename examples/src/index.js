@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import ReactApp from './App.tsx'
 import VueApp from './App.vue'
 import Vue from 'vue'

@@ -4,16 +4,31 @@
 
 ## Usage
 
+### Install
+
 ```bash
-# 分别cd到examples, packages/tmv, packages/tma 执行install命令
+# 安装tmedia依赖包，并且安装所有packages的相关依赖
+npm run bootstrap
+
+# 安装预览项目examples相关依赖
+cd examples
 npm install
+```
 
-# cd 到examples执行start命令, 预览项目
+### Preview
+
+```bash
+# 通过预览项目调试tmedia
+cd examples
 npm start
+```
 
-# cd 到根目录执行publish命令发布packages里面的包
+### Build & Publish
+
+```bash
+# 通过lerna构架和发布tmedia
+npm run build
 npm run publish
-
 ```
 
 ### 工程目录
@@ -32,8 +47,8 @@ npm run publish
             - VueApp.vue    // Vue入口文件
     - tmv                   // 视频组件
         - dist
-            - tmv.js        // 打包出来的Vue视频组件
-            - tmv.js        // 打包出来的Vue视频组件        
+            - tmvv.js        // 打包出来的Vue视频组件
+            - tmvr.js        // 打包出来的React视频组件        
         - src
             - components    // 原子组件
             - assets        // 资源文件

@@ -4,7 +4,7 @@
     "description": "test111",
     "main": "index.js",
     "scripts": {
-        "start": "npm run link && webpack-dev-server --disableHostCheck=true --config ./config/webpack.config.js --open",
+        "start": "npm run link && webpack-dev-server --disableHostCheck=true --config ./config/webpack.config.js",
         "link": "npm link ../packages/tma && npm link ../packages/tmv"
     },
     "author": "",
@@ -42,6 +42,7 @@
         "style-loader": "^2.0.0",
         "ts-loader": "^8.0.7",
         "typescript": "^4.0.5",
+        "vconsole-webpack-plugin": "^1.5.2",
         "vue": "^2.6.12",
         "vue-loader": "^15.9.5",
         "vue-style-loader": "^4.1.2",

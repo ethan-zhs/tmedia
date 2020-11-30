@@ -6,7 +6,7 @@
     justify-content: center;
     padding: 0 8px;
 
-    .tmv-btn {
+    .tmv-quality-btn {
         padding: 5px 10px;
         background: rgba(0,0,0,0.4);
         border-radius: 100px;
@@ -29,11 +29,19 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        width: 80px;
+        min-width: 100px;
         padding: 0 10px;
 
         &:hover {
             background: rgba(255,255,255,0.1);
+        }
+
+        &.tmv-quality-item-active {
+            color: #ff3232;
+        }
+
+        .tmv-quality-name {
+            display: flex;
         }
     }
 }

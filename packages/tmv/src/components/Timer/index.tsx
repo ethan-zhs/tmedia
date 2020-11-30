@@ -1,47 +1,54 @@
 import * as React from 'react'
-import { timeFormat } from '../../utils/timeUtils'
+import { timeFormat } from '../../utils'
 import './index.less'
 
-class Timer extends React.Component<any, any> {
-    constructor(props: any) {
+interface IProps {
+    videoId: string
+}
+
+class Timer extends React.Component<IProps, any> {
+    private video: any
+    constructor(props: IProps) {
         super(props)
 
         this.state = {
+            isLive: false,
             currentTime: '0:00',
             duration: '0:00'
         }
     }
 
     componentDidMount() {
+        this.video = document.getElementById(this.props.videoId)
         this.handleControlsBar()
     }
 
     render() {
-        const { currentTime, duration } = this.state
+        const { currentTime, duration, isLive } = this.state
 
         return (
             <div className="tmv-controls-time">
-                {currentTime} / {duration}
+                {`${currentTime}${isLive ? '' : ' / ' + duration}`}
+                {isLive && <span className="tmv-live-prompt">直播</span>}
             </div>
         )
     }
 
     handleControlsBar = () => {
-        const { videoId } = this.props
-        const video: any = document.getElementById(videoId)
-
-        video.addEventListener('timeupdate', () => {
-            if (timeFormat(video.currentTime) != this.state.currentTime) {
+        this.video.addEventListener('timeupdate', () => {
+            if (timeFormat(this.video.currentTime) != this.state.currentTime) {
                 this.setState({
-                    currentTime: timeFormat(video.currentTime)
+                    currentTime: timeFormat(this.video.currentTime)
                 })
             }
         })
 
-        video.addEventListener('durationchange', () => {
-            if (timeFormat(video.duration) != this.state.duration) {
+        this.video.addEventListener('durationchange', () => {
+            if (timeFormat(this.video.duration) != this.state.duration) {
+                const isLive = !this.video.duration || this.video.duration === Infinity
                 this.setState({
-                    duration: timeFormat(video.duration)
+                    duration: timeFormat(isLive ? 0 : this.video.duration),
+                    isLive
                 })
             }
         })

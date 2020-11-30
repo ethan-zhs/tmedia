@@ -1,11 +1,10 @@
 import * as React from 'react'
 import ControlsBar from './components/ControlsBar'
-import Loading from './components/Loading'
-import { randomHash } from './utils/randomUtils'
+import Error from './components/Error'
+import { loadScript, randomHash, getDevice } from './utils'
 import './index.less'
 
 class Tmvr extends React.Component<any, any> {
-    private videoRef: any
     private videoId: any
     private video: any
 
@@ -13,7 +12,7 @@ class Tmvr extends React.Component<any, any> {
         super(props)
 
         this.state = {
-            isShowControlsbar: false,
+            isError: false,
             isLoading: false
         }
 
@@ -22,24 +21,13 @@ class Tmvr extends React.Component<any, any> {
 
     componentDidMount() {
         this.video = document.getElementById(this.videoId)
-        // this.video.playbackRate = 2
-        // const context = new AudioContext()
-        // this.video.muted = true
-        // this.video
-        //     .play()
-        //     .then(() => {
-        //         console.log('success')
-        //     })
-        //     .catch(() => {
-        //         console.log('err')
-        //     })
-        console.log(this.video.paused)
-        this.aa()
+        this.video.setAttribute('webkit-playsinline', 'true')
+        this.playVideo()
     }
 
     render() {
-        const { isPlaying, isLoading } = this.state
-        const { poster, url } = this.props
+        const { isError } = this.state
+        const { poster, url, controls = true, autoPlay = false } = this.props
 
         return (
             <div className="tmv-video-wrapper">
@@ -48,63 +36,62 @@ class Tmvr extends React.Component<any, any> {
                     src={url}
                     poster={poster}
                     id={this.videoId}
-                    onClick={this.handleVideoPlay}></video>
+                    playsInline
+                    autoPlay={autoPlay}></video>
 
-                {/* <div
-                    className="tmv-poster"
-                    style={{
-                        backgroundImage: `url(${poster})`
-                    }}></div>
-
-                <div className="tmv-big-play-btn-mask">
-                    <div className="tmv-big-play-btn"></div>
-                </div> */}
-
-                {isLoading && <Loading />}
-
-                <ControlsBar
-                    videoId={this.videoId}
-                    isPlaying={isPlaying}
-                    handleVideoPlay={this.handleVideoPlay}
-                    {...this.props}
-                />
+                {isError ? (
+                    <Error errorMessage={'NETWORK_ERROR'} />
+                ) : (
+                    controls && <ControlsBar videoId={this.videoId} {...this.props} />
+                )}
             </div>
         )
     }
 
-    aa = () => {
-        this.video.addEventListener('playing', () => {
-            this.setState({
-                isPlaying: true
-            })
-        })
+    playVideo = () => {
+        const { type, autoPlay } = this.props
+        switch (type) {
+            case 'hls':
+                // 如果是PC则用hls.js播放m3u8
+                const { isPC } = getDevice()
+                isPC &&
+                    loadScript('https://cdn.bootcdn.net/ajax/libs/hls.js/0.14.17-0.alpha.6017/hls.min.js').then(() => {
+                        if (window.Hls.isSupported()) {
+                            const hls = new window.Hls({
+                                liveDurationInfinity: true
+                            })
+                            hls.loadSource(this.video.src)
+                            hls.attachMedia(this.video)
+                            hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
+                                autoPlay && this.video.play()
+                            })
+                        }
+                    })
 
-        this.video.addEventListener('seeking', () => {
-            this.setState({
-                isLoading: true
-            })
-            console.log(1)
-        })
+                break
+            case 'flv':
+                loadScript('https://cdn.bootcdn.net/ajax/libs/flv.js/1.5.0/flv.min.js').then(() => {
+                    if (window.flvjs.isSupported()) {
+                        const flv = window.flvjs.createPlayer({
+                            type: 'flv',
+                            url: this.video.src
+                        })
+                        flv.attachMediaElement(this.video)
+                        flv.load()
+                        autoPlay && flv.play()
+                        flv.on('error', (err: any) => {
+                            console.log(err)
+                            this.setState({ isError: true })
+                        })
+                    }
+                })
+                break
 
-        this.video.addEventListener('seeked', () => {
-            this.setState({
-                isLoading: false
-            })
-            console.log(2)
-        })
-    }
-
-    handleVideoPlay = () => {
-        if (this.video.paused) {
-            this.video.play()
-            this.setState({
-                isPlaying: true
-            })
-        } else {
-            this.video.pause()
-            this.setState({
-                isPlaying: false
-            })
+            default:
+                autoPlay &&
+                    this.video.play().catch(() => {
+                        console.log('[TMVR] Video cannot play')
+                    })
         }
     }
 }

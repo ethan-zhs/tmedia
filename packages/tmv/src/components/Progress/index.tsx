@@ -1,13 +1,19 @@
 import * as React from 'react'
-import { timeFormat } from '../../utils/timeUtils'
+import { timeFormat } from '../../utils'
 import './index.less'
 
-class Progress extends React.Component<any, any> {
+interface IProps {
+    videoId: string
+    onSlideStatusChange: (status: string) => void
+}
+
+class Progress extends React.Component<IProps, any> {
     private video: any
     private progressRef: any
     private progressHoverTimeRef: any
+    private historyPauseStatus: boolean
 
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props)
 
         this.state = {
@@ -16,7 +22,8 @@ class Progress extends React.Component<any, any> {
             buffered: 0,
             progress: 0,
             hovered: 0,
-            hoveredTimePos: 0
+            hoveredTimePos: 0,
+            isLive: false
         }
         this.progressHoverTimeRef = React.createRef()
         this.progressRef = React.createRef()
@@ -29,7 +36,16 @@ class Progress extends React.Component<any, any> {
     }
 
     render() {
-        const { maxWidth, currentTime, buffered, progress, hovered, hoveredTimePos } = this.state
+        const { maxWidth, currentTime, buffered, progress, hovered, hoveredTimePos, isLive } = this.state
+
+        // 直播不显示进度条元件
+        if (isLive) {
+            return (
+                <div className="tmv-controls-progress-bar">
+                    <div className="tmv-progress-base"></div>
+                </div>
+            )
+        }
 
         return (
             <div
@@ -45,6 +61,7 @@ class Progress extends React.Component<any, any> {
                 <div
                     className="tmv-progress-point"
                     onMouseDown={this.slideStart}
+                    onTouchStart={this.slideStart}
                     style={{ transform: `translate(${(maxWidth * progress) / 100}px, -50%)` }}></div>
                 <div
                     className="tmv-progress-time"
@@ -58,17 +75,23 @@ class Progress extends React.Component<any, any> {
     }
 
     handleProgressChange = () => {
-        this.setState({
-            maxWidth: this.progressRef.current.clientWidth
-        })
-
         this.video.addEventListener('timeupdate', () => {
-            if (this.video.currentTime != this.state.currentTime) {
+            if (this.video.currentTime != this.state.currentTime && !this.state.isLive) {
+                const timeRange = this.video.buffered
                 this.setState({
-                    buffered: Math.round((this.video.buffered.end(0) / this.video.duration) * 100),
-                    progress: (this.video.currentTime / this.video.duration) * 100
+                    buffered:
+                        timeRange.length > 0 ? (timeRange.end(timeRange.length - 1) / this.video.duration) * 100 : 0,
+                    progress: (this.video.currentTime / this.video.duration) * 100,
+                    maxWidth: this.progressRef.current.clientWidth
                 })
             }
+        })
+
+        this.video.addEventListener('durationchange', () => {
+            const isLive = !this.video.duration || this.video.duration === Infinity
+            this.setState({
+                isLive
+            })
         })
     }
 
@@ -90,14 +113,21 @@ class Progress extends React.Component<any, any> {
 
     slideStart = () => {
         // 为了更好的体验，在移动触点的时候我选择将视频暂停
+        this.historyPauseStatus = this.video.paused
         this.video.pause()
+        this.props.onSlideStatusChange('start')
 
         document.addEventListener('mousemove', this.slideMoveOrClick, false)
         document.addEventListener('mouseup', this.slideEnd, false)
+        document.addEventListener('touchmove', this.slideMoveOrClick, false)
+        document.addEventListener('touchend', this.slideEnd, false)
     }
 
     slideMoveOrClick = (e: any) => {
-        const pos: any = this.getProgressPos(e.pageX)
+        const pageX = e.pageX || e.targetTouches[0].pageX
+
+        const pos: any = this.getProgressPos(pageX)
+
         this.video.currentTime = pos.percent * this.video.duration
 
         this.setState({
@@ -107,8 +137,14 @@ class Progress extends React.Component<any, any> {
     }
 
     slideEnd = () => {
+        this.props.onSlideStatusChange('end')
         document.removeEventListener('mousemove', this.slideMoveOrClick, false)
         document.removeEventListener('mouseup', this.slideEnd, false)
+        document.removeEventListener('touchmove', this.slideMoveOrClick, false)
+        document.removeEventListener('touchend', this.slideEnd, false)
+
+        // 拖动进度条结束时，恢复播放状态
+        !this.historyPauseStatus && this.video.play()
     }
 
     getProgressPos = (pageX: number) => {

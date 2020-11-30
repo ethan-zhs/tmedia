@@ -5,8 +5,9 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "publish": "lerna publish",
-    "build": "lerna run build"
+    "publish": "npx lerna publish",
+    "build": "npx lerna run build",
+    "bootstrap": "npm install&&npx lerna exec npm install"    
   },
   "author": "",
   "license": "ISC",

@@ -1,8 +1,31 @@
 import * as React from 'react'
+import { getDevice, loadScript } from '../../utils'
 import './index.less'
 
-class Fullscreen extends React.Component<any, any> {
-    constructor(props: any) {
+interface IProps {
+    videoId: string
+}
+
+const FULLSCREEN_EVENT: any = {
+    request: [
+        'requestFullscreen',
+        'mozRequestFullScreen',
+        'webkitRequestFullScreen',
+        'webkitRequestFullscreen',
+        'msRequestFullscreen'
+    ],
+    exit: ['exitFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen', 'msExitFullscreen'],
+    change: {
+        fullscreenEnabled: 'fullscreenchange',
+        webkitFullscreenEnabled: 'webkitfullscreenchange',
+        mozFullScreenEnabled: 'mozfullscreenchange',
+        msFullscreenEnabled: 'MSFullscreenChange'
+    }
+}
+
+class Fullscreen extends React.Component<IProps, any> {
+    private video: any
+    constructor(props: IProps) {
         super(props)
 
         this.state = {
@@ -11,6 +34,9 @@ class Fullscreen extends React.Component<any, any> {
     }
 
     componentDidMount() {
+        const { videoId } = this.props
+        this.video = document.getElementById(videoId)
+
         this.handleFullscreenChange()
         this.handleDoubleClickFullscreen()
     }
@@ -35,24 +61,30 @@ class Fullscreen extends React.Component<any, any> {
         )
     }
 
-    handleFullscreenChange = () => {
-        let fullscreenEvent = ''
+    getFullscreenChangeEvent = () => {
+        let fullscreenEvent: any = null
         const dom: any = document
+        const fullscreenChangeEvent: any = FULLSCREEN_EVENT.change
 
-        if (dom.fullscreenEnabled) {
-            fullscreenEvent = 'fullscreenchange'
-        } else if (dom.webkitFullscreenEnabled) {
-            fullscreenEvent = 'webkitfullscreenchange'
-        } else if (dom.mozFullScreenEnabled) {
-            fullscreenEvent = 'mozfullscreenchange'
-        } else if (dom.msFullscreenEnabled) {
-            fullscreenEvent = 'MSFullscreenChange'
+        for (const enableItem in fullscreenChangeEvent) {
+            if (dom[enableItem]) {
+                fullscreenEvent = fullscreenChangeEvent[enableItem]
+                return fullscreenEvent
+            }
         }
 
-        dom.addEventListener(fullscreenEvent, this.fullscreenChangeHandler)
+        return fullscreenEvent
+    }
+
+    handleFullscreenChange = () => {
+        const dom: any = document
+        const fullscreenEvent = this.getFullscreenChangeEvent()
+
+        fullscreenEvent && dom.addEventListener(fullscreenEvent, this.fullscreenChangeHandler)
     }
 
     fullscreenChangeHandler = (event: any) => {
+        const videoElem: any = this.video?.parentNode
         const elem = event.target
         const doc: any = document
 
@@ -67,50 +99,59 @@ class Fullscreen extends React.Component<any, any> {
         this.setState({
             isFullscreen
         })
+
+        if (isFullscreen) {
+            videoElem.classList.add('tmv-video-wrapper-fullscreen')
+        } else {
+            videoElem.classList.remove('tmv-video-wrapper-fullscreen')
+        }
     }
 
     handleFullscreen = () => {
         const { isFullscreen } = this.state
-        const { videoId } = this.props
-        const videoElem: any = document.getElementById(videoId)?.parentNode
+        const videoElem: any = this.video?.parentNode
 
-        if (videoElem) {
-            isFullscreen ? this.exitFullscreen() : this.requestFullscreen(videoElem)
-        }
+        isFullscreen ? this.exitFullscreen() : this.requestFullscreen(videoElem)
     }
 
     handleDoubleClickFullscreen = () => {
-        const { videoId } = this.props
-        document.getElementById(videoId)?.addEventListener('dblclick', (e: any) => {
+        this.video.addEventListener('dblclick', (e: any) => {
             e.preventDefault()
             this.handleFullscreen()
         })
     }
 
-    // Element
+    // 进入全屏用Element对象, ios仅支持video Element进入全屏
     requestFullscreen = (dom: any) => {
-        if (dom.requestFullscreen) {
-            dom.requestFullscreen()
-        } else if (dom.mozRequestFullScreen) {
-            dom.mozRequestFullScreen()
-        } else if (dom.webkitRequestFullScreen) {
-            dom.webkitRequestFullScreen()
-        } else if (dom.msRequestFullscreen) {
-            dom.msRequestFullscreen()
+        const { isPhone, isApp } = getDevice()
+
+        if (this.getFullscreenChangeEvent()) {
+            for (let i = 0; i < FULLSCREEN_EVENT.request.length; i++) {
+                if (dom[FULLSCREEN_EVENT.request[i]]) {
+                    dom[FULLSCREEN_EVENT.request[i]]()
+                    break
+                }
+            }
+        } else if (isPhone && this.video.webkitEnterFullscreen) {
+            this.video.webkitEnterFullscreen()
+        } else if (isApp) {
+            // 针对android 5.x版本以下的webview，不支持全屏事件，通过app提供的方法实现全屏
+            loadScript('https://domain/app-ee92629b.min.js').then(() => {
+                window.touchtvapp.playVideo(this.video.src)
+            })
+        } else {
+            console.error('[TMV]: Device not support fullscreen')
         }
     }
 
-    // Document
+    // 退出全屏要用Document对象
     exitFullscreen = () => {
         const dom: any = document
-        if (dom.exitFullscreen) {
-            dom.exitFullscreen()
-        } else if (dom.mozCancelFullScreen) {
-            dom.mozCancelFullScreen()
-        } else if (dom.webkitCancelFullScreen) {
-            dom.webkitCancelFullScreen()
-        } else if (dom.msExitFullscreen) {
-            dom.msExitFullscreen()
+        for (let i = 0; i < FULLSCREEN_EVENT.exit.length; i++) {
+            if (dom[FULLSCREEN_EVENT.exit[i]]) {
+                dom[FULLSCREEN_EVENT.exit[i]]()
+                break
+            }
         }
     }
 }

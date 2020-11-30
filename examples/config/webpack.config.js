@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const vConsolePlugin = require('vconsole-webpack-plugin')
 
 const resolve = (...args) => path.join(__dirname, '..', ...args)
 
@@ -103,10 +104,14 @@ module.exports = {
             chunksSortMode: 'none',
             chunks: ['manifest', 'vendor', path.join(__dirname, '../src/index.js')],
             hash: true
+        }),
+        new vConsolePlugin({
+            enable: true
         })
     ],
 
     devServer: {
+        host: '0.0.0.0',
         contentBase: path.resolve(__dirname, 'dist'),
         port: 7777
     }
