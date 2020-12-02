@@ -2,7 +2,7 @@ import * as React from 'react'
 import ControlsBar from './components/ControlsBar'
 import Error from './components/Error'
 import { loadScript, randomHash, getDevice } from './utils'
-import './index.less'
+// import './index.less'
 
 class Tmvr extends React.Component<any, any> {
     private videoId: any
@@ -50,19 +50,20 @@ class Tmvr extends React.Component<any, any> {
 
     playVideo = () => {
         const { type, autoPlay } = this.props
+        const win: any = window
         switch (type) {
             case 'hls':
                 // 如果是PC则用hls.js播放m3u8
                 const { isPC } = getDevice()
                 isPC &&
-                    loadScript('https://cdn.bootcdn.net/ajax/libs/hls.js/0.14.17-0.alpha.6017/hls.min.js').then(() => {
-                        if (window.Hls.isSupported()) {
-                            const hls = new window.Hls({
+                    loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/hls/hls.min.js').then(() => {
+                        if (win.Hls.isSupported()) {
+                            const hls = new win.Hls({
                                 liveDurationInfinity: true
                             })
                             hls.loadSource(this.video.src)
                             hls.attachMedia(this.video)
-                            hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
+                            hls.on(win.Hls.Events.MANIFEST_PARSED, () => {
                                 autoPlay && this.video.play()
                             })
                         }
@@ -70,9 +71,9 @@ class Tmvr extends React.Component<any, any> {
 
                 break
             case 'flv':
-                loadScript('https://cdn.bootcdn.net/ajax/libs/flv.js/1.5.0/flv.min.js').then(() => {
-                    if (window.flvjs.isSupported()) {
-                        const flv = window.flvjs.createPlayer({
+                loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/flv/flv.min.js').then(() => {
+                    if (win.flvjs.isSupported()) {
+                        const flv = win.flvjs.createPlayer({
                             type: 'flv',
                             url: this.video.src
                         })

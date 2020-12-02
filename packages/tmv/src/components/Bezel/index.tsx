@@ -11,10 +11,6 @@ class Bezel extends React.Component<IProps, any> {
     constructor(props: IProps) {
         super(props)
 
-        this.state = {
-            isLoading: false
-        }
-
         this.bezelRef = React.createRef()
     }
 
@@ -30,18 +26,18 @@ class Bezel extends React.Component<IProps, any> {
     render() {
         const { type } = this.props
 
-        const a: any = {
+        const bezelIcon: any = {
             play: this.playingBezel(),
             pause: this.pauseBezel()
         }
 
-        if (Object.keys(a).indexOf(type) < 0) {
+        if (Object.keys(bezelIcon).indexOf(type) < 0) {
             return null
         }
 
         return (
             <div className="tmv-bezel tmv-bezel-show" ref={this.bezelRef}>
-                <div className="tmv-bezel-icon">{a[type]}</div>
+                <div className="tmv-bezel-icon">{bezelIcon[type]}</div>
             </div>
         )
     }
@@ -52,7 +48,7 @@ class Bezel extends React.Component<IProps, any> {
                 <path
                     className="tmv-svg-fill"
                     d="M 12,26 16,26 16,10 12,10 z M 21,26 25,26 25,10 21,10 z"
-                    id="ytp-id-156"></path>
+                    ></path>
             </svg>
         )
     }
@@ -63,7 +59,7 @@ class Bezel extends React.Component<IProps, any> {
                 <path
                     className="tmv-svg-fill"
                     d="M 13,26 19.5,22 19.5,14 13,10 z M 19.5,22 26,18 26,18 19.5,14 z"
-                    id="ytp-id-213"></path>
+                    ></path>
             </svg>
         )
     }

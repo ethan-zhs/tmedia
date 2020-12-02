@@ -16,15 +16,18 @@ export default class App extends React.Component<any, any> {
                     <h2>React视频组件</h2>
                     <a href="http://demo.itouchtv.cn:7777">测试跳转自动播放</a>
                     <Tmvr
-                        poster="url"
-                        url="url"
+                        poster="https://img2-cloud.itouchtv.cn/news/877c305a8fce17015150622dad25be06.png"
+                        // url="https://wslizhi.gdtv.cn/live/gdws.m3u8?auth_key=1606463949-0-0-057d8173e4e7240542f883d6ba85a191"
+                        // url="https://pili-live-hdl.itouchtv.cn/touchtv-1/5fbdb08ea3d5ec2d5128f3a9.flv"
+                        // url="https://vod.gdtv.cn/m3u8/202011/160614192836.m3u8"
+                        url="https://sitecdn.itouchtv.cn/sitecdn/assets/videos/demo.flv"
                         toNextVideo={() => {
                             alert('下一个视频的回调')
                         }}
-                        platform="mobile"
+                        platform="pc"
                         type="flv"
                         // controls={false}
-                        autoPlay={true}
+                        autoPlay={false}
                         // mute={true}
                         // qualityList={[
                         //     {

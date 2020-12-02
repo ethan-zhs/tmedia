@@ -8,15 +8,12 @@ interface IProps {
     onVisibleChange?: (visible: boolean, type?: string) => void
 }
 
-class Setting extends React.Component<IProps, any> {
-    private popover: any
+class Popover extends React.Component<IProps, any> {
     constructor(props: IProps) {
         super(props)
         this.state = {
             visible: false
         }
-
-        this.popover = React.createRef()
     }
 
     componentDidMount() {
@@ -35,8 +32,8 @@ class Setting extends React.Component<IProps, any> {
             <div className="tmv-popover" onMouseLeave={this.handleMouseLeave}>
                 {React.cloneElement(children, { onClick: this.togglePopover })}
                 {(visible || this.state.visible) && (
-                    <div className="tmv-popover-mark" ref={this.popover}>
-                        <div className="tmv-popover-panel" ref={this.popover}>
+                    <div className="tmv-popover-mark">
+                        <div className="tmv-popover-panel">
                             {content}
                         </div>
                     </div>
@@ -72,4 +69,4 @@ class Setting extends React.Component<IProps, any> {
     }
 }
 
-export default Setting
+export default Popover

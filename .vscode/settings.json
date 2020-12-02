@@ -1,5 +1,4 @@
 {
-    "eslint.enable": true,  //是否开启vscode的eslint
     "eslint.options": {    //指定vscode的eslint所处理的文件的后缀
         "extensions": [
             ".js",
@@ -8,6 +7,15 @@
             ".vue"
         ]
     },
+
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "vue"
+    ],
+
+    "vetur.validation.template": false,
+
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     }

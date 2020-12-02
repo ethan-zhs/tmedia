@@ -1,10 +1,10 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import Progress from '../Progress'
-import FullScreen from '../FullScreen'
-import Timer from '../Timer'
-import NextVideo from '../NextVideo'
-import Loading from '../Loading'
+import Progress from '../../Progress'
+import FullScreen from '../../FullScreen'
+import Timer from '../../Timer'
+import NextVideo from '../../NextVideo'
+import Loading from '../../Loading'
 import './mobile.less'
 
 class MobileControl extends React.Component<any, any> {
@@ -63,7 +63,11 @@ class MobileControl extends React.Component<any, any> {
                             e.stopPropagation()
                         }}>
                         <div className="tmv-m-controls-bar">
-                            <div className="tmv-m-svg-btn">
+                            <div
+                                className={classNames({
+                                    ['tmv-m-svg-btn']: true,
+                                    ['tmv-m-svg-btn-disable']: !toNextVideo
+                                })}>
                                 <NextVideo toNextVideo={toNextVideo} />
                             </div>
 

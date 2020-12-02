@@ -1,6 +1,6 @@
 import * as React from 'react'
-import PCControl from './PC'
-import MobileControl from './Mobile'
+import PCControl from './pc/PC'
+import MobileControl from './mobile/Mobile'
 
 class ControlsBar extends React.Component<any, any> {
     private video: any
@@ -38,46 +38,37 @@ class ControlsBar extends React.Component<any, any> {
     }
 
     handleVideoEvents = () => {
-        this.video.addEventListener('play', () => {
-            this.setState({
-                isPlaying: true
-            })
-        })
+        this.video.addEventListener('play', this.videoPlaying)
+        this.video.addEventListener('pause', this.videoPaused)
+        this.video.addEventListener('end', this.videoPaused)
+        this.video.addEventListener('seeking', this.startLoading)
+        this.video.addEventListener('seeked', this.cancelLoading)
+        this.video.addEventListener('loadstart', this.startLoading)
+        this.video.addEventListener('loadedmetadata', this.cancelLoading)
+        this.video.addEventListener('canplay', this.cancelLoading)
+    }
 
-        this.video.addEventListener('pause', () => {
-            this.setState({
-                isPlaying: false
-            })
+    videoPlaying = () => {
+        this.setState({
+            isPlaying: true
         })
+    }
 
-        this.video.addEventListener('end', () => {
-            this.setState({
-                isPlaying: false
-            })
+    videoPaused = () => {
+        this.setState({
+            isPlaying: false
         })
+    }
 
-        this.video.addEventListener('seeking', () => {
-            this.setState({
-                isLoading: true
-            })
+    startLoading = () => {
+        this.setState({
+            isLoading: true
         })
+    }
 
-        this.video.addEventListener('seeked', () => {
-            this.setState({
-                isLoading: false
-            })
-        })
-
-        this.video.addEventListener('loadstart', () => {
-            this.setState({
-                isLoading: true
-            })
-        })
-
-        this.video.addEventListener('loadedmetadata', () => {
-            this.setState({
-                isLoading: false
-            })
+    cancelLoading = () => {
+        this.setState({
+            isLoading: false
         })
     }
 

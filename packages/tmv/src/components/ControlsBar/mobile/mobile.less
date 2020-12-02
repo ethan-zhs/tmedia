@@ -80,8 +80,17 @@
                     width: 30px;
                     height: 30px;
                     cursor: pointer;
+
+                    &.tmv-m-svg-btn-disable {
+                        cursor: inherit;
+                        pointer-events: none;
+                        
+                        .tmv-svg-fill {
+                            fill: rgba(255,255,255,0.5);
+                        }
+                    }
         
-                    .tm-svg-fill {
+                    .tmv-svg-fill {
                         fill: #fff;
                     }
                 }

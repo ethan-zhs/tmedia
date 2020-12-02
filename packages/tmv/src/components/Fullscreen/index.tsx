@@ -49,11 +49,11 @@ class Fullscreen extends React.Component<IProps, any> {
                 <svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">
                     {isFullscreen ? (
                         <path
-                            className="tm-svg-fill"
+                            className="tmv-svg-fill"
                             d="M 10,16 16,16 16,10 14,10 14,14 10,14 z M 27,16 21,16 21,10 23,10 23,14 27,14 z M 10,20 16,20 16,26 14,26 14,22 10,22 z M 27,20 21,20 21,26 23,26 23,22 27,22 z"></path>
                     ) : (
                         <path
-                            className="tm-svg-fill"
+                            className="tmv-svg-fill"
                             d="M 10,10 16,10 16,12 12,12 12,16 10,16 z M 27,10 21,10 21,12 25,12 25,16 27,16 z M 10,26 16,26 16,24 12,24 12,20 10,20 z M 27,26 21,26 21,24 25,24 25,20 27,20 z"></path>
                     )}
                 </svg>
@@ -136,8 +136,9 @@ class Fullscreen extends React.Component<IProps, any> {
             this.video.webkitEnterFullscreen()
         } else if (isApp) {
             // 针对android 5.x版本以下的webview，不支持全屏事件，通过app提供的方法实现全屏
-            loadScript('https://domain/app-ee92629b.min.js').then(() => {
-                window.touchtvapp.playVideo(this.video.src)
+            loadScript('https://sitecdn.itouchtv.cn/sitecdn/sdk/touchtvapp/touchtvapp-ee92629b.min.js').then(() => {
+                const win: any = window
+                win.touchtvapp.playVideo(this.video.src)
             })
         } else {
             console.error('[TMV]: Device not support fullscreen')

@@ -1,16 +1,16 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import Progress from '../Progress'
-import FullScreen from '../FullScreen'
-import Volume from '../Volume'
-import Setting from '../Setting'
-import Timer from '../Timer'
-import NextVideo from '../NextVideo'
-import PlayBtn from '../PlayBtn'
-import PlaybackRate from '../PlaybackRate'
-import Definition from '../Definition'
-import Bezel from '../Bezel'
-import Loading from '../Loading'
+import Progress from '../../Progress'
+import Fullscreen from '../../FullScreen'
+import Volume from '../../Volume'
+import Setting from '../../Setting'
+import Timer from '../../Timer'
+import NextVideo from '../../NextVideo'
+import PlayBtn from '../../PlayBtn'
+import PlaybackRate from '../../PlaybackRate'
+import Definition from '../../Definition'
+import Bezel from '../../Bezel'
+import Loading from '../../Loading'
 import './pc.less'
 
 class PCControl extends React.Component<any, any> {
@@ -53,16 +53,19 @@ class PCControl extends React.Component<any, any> {
                     })}>
                     <div
                         className="tmv-controls-bar"
-                        onClick={e => {
-                            e.stopPropagation()
-                        }}>
+                        onClick={this.stopPropagation}
+                        onDoubleClick={this.stopPropagation}>
                         <Progress videoId={videoId} onSlideStatusChange={this.changeProgressSlideStatus} />
                         <div className="tmv-controls-coms">
                             <div className="tmv-svg-btn">
                                 <PlayBtn handleVideoPlay={this.handleVideoPlay} isPlaying={isPlaying} />
                             </div>
 
-                            <div className="tmv-svg-btn">
+                            <div
+                                className={classNames({
+                                    ['tmv-svg-btn']: true,
+                                    ['tmv-svg-btn-disable']: !toNextVideo
+                                })}>
                                 <NextVideo toNextVideo={toNextVideo} />
                             </div>
 
@@ -80,13 +83,17 @@ class PCControl extends React.Component<any, any> {
                                 <Setting videoId={videoId} />
                             </div>
                             <div className="tmv-svg-btn">
-                                <FullScreen videoId={videoId} />
+                                <Fullscreen videoId={videoId} />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         )
+    }
+
+    stopPropagation = (e: any) => {
+        e.stopPropagation()
     }
 
     dispatchVideoDblClick = () => {
