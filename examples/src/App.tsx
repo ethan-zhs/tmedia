@@ -50,6 +50,24 @@ export default class App extends React.Component<any, any> {
                                     'http://video2-cloud.itouchtv.cn/video/2020/06/04/0cd6b2d3e3899e771591262568549928__hd.mp4'
                             }
                         ]}
+                        playbackRateList={[
+                            {
+                                value: '0.5'
+                            },
+                            {
+                                value: '1.0',
+                                default: true
+                            },
+                            {
+                                value: '1.25'
+                            },
+                            {
+                                value: '1.5'
+                            },
+                            {
+                                value: '2.5'
+                            }
+                        ]}
                     />
                 </div>
                 <div className="audio-demo">

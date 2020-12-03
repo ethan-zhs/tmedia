@@ -53,6 +53,8 @@ export default {
                 initDefinition = localDefinition[0]
             } else if (defaultDefinition.length) {
                 initDefinition = defaultDefinition[0]
+            } else if (this.qualityList.length) {
+                initDefinition = this.qualityList[0]
             }
 
             this.handleQualityChange(initDefinition, this.autoPlay)

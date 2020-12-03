@@ -1,7 +1,7 @@
 {
     "name": "tmedia-example",
     "version": "1.0.2",
-    "description": "test111",
+    "description": "tmedia examples preview",
     "main": "index.js",
     "scripts": {
         "start": "npm run link && webpack-dev-server --disableHostCheck=true --config ./config/webpack.config.js",

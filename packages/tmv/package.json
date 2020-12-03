@@ -8,11 +8,16 @@
     "tsc": "rimraf dist && tsc --outDir ./dist"
   },
   "publishConfig": {
-    "registry": "http://192.168.31.69:4873"
+    "registry": "http://192.168.31.66:4873"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "@types/classnames": "^2.2.10",
+    "@types/node": "^13.13.5",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
     "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
@@ -26,10 +31,6 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@babel/runtime": "^7.9.6",
-    "@types/classnames": "^2.2.10",
-    "@types/node": "^13.13.5",
-    "@types/react": "^16.9.34",
-    "@types/react-dom": "^16.9.7",
     "autoprefixer": "^9.7.6",
     "babel-loader": "^8.1.0",
     "babel-plugin-import": "^1.13.0",
@@ -50,12 +51,12 @@
     "typescript": "^3.8.3",
     "url-loader": "^4.1.0",
     "vue": "^2.6.12",
-    "vue-fragment": "^1.5.1",
     "vue-loader": "^15.9.5",
+    "vue-fragment": "^1.5.1",
     "vue-template-compiler": "^2.6.12",
     "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.11"
   },
-  "gitHead": "08a8cb85f8169df29e0276c5acd7f3b8be019145"
+  "gitHead": "dd560ab28eb83718e7aae893d3bb3392369c1011"
 }

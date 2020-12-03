@@ -26,7 +26,7 @@ import MobileControl from './mobile/Mobile.vue'
 
 export default {
     name: 'ControlsBar',
-    props: ['autoPlay', 'toNextVideo', 'platform', 'videoId', 'mute', 'qualityList'],
+    props: ['autoPlay', 'toNextVideo', 'platform', 'videoId', 'mute', 'qualityList', 'playbackRateList'],
     components: {
         MobileControl,
         PCControl,

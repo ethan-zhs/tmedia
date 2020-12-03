@@ -35,7 +35,7 @@ class PCControl extends React.Component<any, any> {
 
     render() {
         const { visible, bezelType, isProgressSliding } = this.state
-        const { videoId, toNextVideo, mute, qualityList = [], isLoading, isPlaying, autoPlay } = this.props
+        const { videoId, toNextVideo, mute, qualityList = [], isLoading, isPlaying, autoPlay, playbackRateList } = this.props
 
         return (
             <div
@@ -74,7 +74,7 @@ class PCControl extends React.Component<any, any> {
                             {qualityList.length > 0 && (
                                 <Definition videoId={videoId} qualityList={qualityList} autoPlay={autoPlay} />
                             )}
-                            <PlaybackRate videoId={videoId} />
+                            <PlaybackRate videoId={videoId} playbackRateList={playbackRateList} />
 
                             <div className="tmv-svg-btn">
                                 <Volume videoId={videoId} mute={mute} />

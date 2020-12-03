@@ -8,7 +8,7 @@
     "tsc": "rimraf dist && tsc --outDir ./dist"
   },
   "publishConfig": {
-    "registry": "http://192.168.31.69:4873"
+    "registry": "http://192.168.31.66:4873"
   },
   "author": "",
   "license": "ISC",
@@ -55,5 +55,5 @@
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.11"
   },
-  "gitHead": "08a8cb85f8169df29e0276c5acd7f3b8be019145"
+  "gitHead": "dd560ab28eb83718e7aae893d3bb3392369c1011"
 }

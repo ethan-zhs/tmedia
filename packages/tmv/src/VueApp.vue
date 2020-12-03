@@ -14,7 +14,37 @@ import './index.less'
 
 export default {
     name: 'VueApp',
-    props: ['poster', 'url', 'type', 'autoPlay', 'controls', 'toNextVideo', 'platform', 'mute', 'qualityList'],
+    props: {
+        poster: String,
+        toNextVideo: {
+            default: null
+        },
+        qualityList: {
+            default: null
+        },
+        url: {
+            required: true
+        },
+        type: {
+            default: 'mp4'
+        },
+        autoPlay: {
+            default: true
+        },
+        controls: {
+            default: true
+        },
+
+        platform: {
+            default: 'pc'
+        },
+        mute: {
+            default: false
+        },
+        playbackRateList: {
+            default: null
+        }
+    },
     components: {
         ControlsBar,
         Error

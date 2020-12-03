@@ -74,6 +74,8 @@ class Definition extends React.Component<IProps, any> {
             initDefinition = localDefinition[0]
         } else if (defaultDefinition.length) {
             initDefinition = defaultDefinition[0]
+        } else if(qualityList.length) {
+            initDefinition = qualityList[0]
         }
 
         this.handleQualityChange(initDefinition, autoPlay)

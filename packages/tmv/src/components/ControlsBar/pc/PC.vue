@@ -30,7 +30,7 @@
                         :autoPlay="autoPlay"
                     />
 
-                    <PlaybackRate :videoId="videoId" />
+                    <PlaybackRate :videoId="videoId" :playbackRateList="playbackRateList" />
 
                     <div class="tmv-svg-btn">
                         <Volume :videoId="videoId" :mute="mute" />
@@ -64,7 +64,17 @@ import './pc.less'
 
 export default {
     name: 'PCControl',
-    props: ['videoId', 'toNextVideo', 'handleVideoPlay', 'isPlaying', 'isLoading', 'mute', 'qualityList', 'autoPlay'],
+    props: [
+        'videoId',
+        'toNextVideo',
+        'handleVideoPlay',
+        'isPlaying',
+        'isLoading',
+        'mute',
+        'qualityList',
+        'playbackRateList',
+        'autoPlay'
+    ],
     components: {
         PlayBtn,
         NextVideo,
