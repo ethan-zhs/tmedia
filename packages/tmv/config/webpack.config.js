@@ -83,7 +83,7 @@ module.exports = {
         }),
 
         new MiniCssExtractPlugin({
-            filename: 'index.css' // 提取后的css的文件名
+            filename: '[name].css' // 提取后的css的文件名
         })
 
         // new BundleAnalyzerPlugin()

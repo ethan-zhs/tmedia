@@ -48,7 +48,7 @@ class Definition extends React.Component<IProps, any> {
                                         ['tmv-quality-item-active']: item.name === currQuality.name
                                     })}
                                     key={item.name}
-                                    onClick={() => this.handleQualityChange(item)}>
+                                    onClick={() => this.handleQualityChange(item, true)}>
                                     <div className="tmv-quality-name">{item.cName}</div>
                                 </div>
                             ))}
@@ -61,7 +61,7 @@ class Definition extends React.Component<IProps, any> {
     }
 
     initData = () => {
-        const { qualityList = [] } = this.props
+        const { qualityList = [], autoPlay } = this.props
         const tmvDefinition: any = localStorage.getItem('tmv-definition') || {}
 
         const localDefinition = qualityList.filter(item => item.name === tmvDefinition)
@@ -76,15 +76,15 @@ class Definition extends React.Component<IProps, any> {
             initDefinition = defaultDefinition[0]
         }
 
-        this.handleQualityChange(initDefinition)
+        this.handleQualityChange(initDefinition, autoPlay)
     }
 
-    handleQualityChange = (item: any) => {
+    handleQualityChange = (item: any, autoPlay: boolean = false) => {
         // 记录上个视频的播放时间
         this.videoCurrTime = this.video.currentTime
 
         this.video.src = item.url
-        this.video.autoplay = this.props.autoPlay
+        this.video.autoplay = autoPlay
         this.video.load()
 
         this.video.addEventListener('loadeddata', this.changeVideoTime, false)

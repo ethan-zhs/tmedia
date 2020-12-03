@@ -11,7 +11,7 @@
                         class="tmv-quality-item"
                         :class="{ 'tmv-quality-item-active': item.name === currQuality.name }"
                         :key="item.name"
-                        @click="handleQualityChange(item)"
+                        @click="handleQualityChange(item, true)"
                     >
                         <div class="tmv-quality-name">{{ item.cName }}</div>
                     </div>
@@ -55,15 +55,15 @@ export default {
                 initDefinition = defaultDefinition[0]
             }
 
-            this.handleQualityChange(initDefinition)
+            this.handleQualityChange(initDefinition, this.autoPlay)
         },
 
-        handleQualityChange(item) {
+        handleQualityChange(item, autoPlay = false) {
             // 记录上个视频的播放时间
             this.videoCurrTime = this.video.currentTime
 
             this.video.src = item.url
-            this.video.autoplay = this.autoPlay
+            this.video.autoplay = autoPlay
             this.video.load()
 
             this.video.addEventListener('loadeddata', this.changeVideoTime, false)

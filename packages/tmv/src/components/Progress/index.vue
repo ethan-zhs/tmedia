@@ -1,39 +1,49 @@
 <template>
-    <div
-        class="tmv-controls-progress-bar"
-        @mouseleave="progressLeave"
-        @mousemove="progressMove"
-        @click="slideMoveOrClick"
-    >
-        <div class="tmv-progress-base" ref="progressRef">
-            <div :style="{ width: `${hovered}%` }" class="tmv-progress-hover"></div>
-            <div class="tmv-progress-buffer" :style="{ width: `${buffered}%` }"></div>
-            <div class="tmv-progress" :style="{ width: `${progress}%` }"></div>
+    <Fragment>
+        <div v-if="isLive" class="tmv-controls-progress-bar">
+            <div class="tmv-progress-base"></div>
         </div>
         <div
-            class="tmv-progress-point"
-            @mousedown="slideStart"
-            @touchstart="slideStart"
-            :style="{ transform: `translate(${(maxWidth * progress) / 100}px, -50%)` }"
-        ></div>
-        <div
-            class="tmv-progress-time"
-            :style="{ left: `${hoveredTimePos}px` }"
-            ref="progressHoverTimeRef"
-            @mousemove="e => e.stopPropagation()"
+            v-else
+            class="tmv-controls-progress-bar"
+            @mouseleave="progressLeave"
+            @mousemove="progressMove"
+            @click="slideMoveOrClick"
         >
-            {{ timeFormat(currentTime) }}
+            <div class="tmv-progress-base" ref="progressRef">
+                <div :style="{ width: `${hovered}%` }" class="tmv-progress-hover"></div>
+                <div class="tmv-progress-buffer" :style="{ width: `${buffered}%` }"></div>
+                <div class="tmv-progress" :style="{ width: `${progress}%` }"></div>
+            </div>
+            <div
+                class="tmv-progress-point"
+                @mousedown="slideStart"
+                @touchstart="slideStart"
+                :style="{ transform: `translate(${(maxWidth * progress) / 100}px, -50%)` }"
+            ></div>
+            <div
+                class="tmv-progress-time"
+                :style="{ left: `${hoveredTimePos}px` }"
+                ref="progressHoverTimeRef"
+                @mousemove="e => e.stopPropagation()"
+            >
+                {{ timeFormat(currentTime) }}
+            </div>
         </div>
-    </div>
+    </Fragment>
 </template>
 
 <script>
+import { Fragment } from 'vue-fragment'
 import { timeFormat } from '../../utils'
 import './index.less'
 
 export default {
     name: 'Progress',
     props: ['platform', 'videoId', 'type', 'handleVideoPlay', 'onSlideStatusChange'],
+    components: {
+        Fragment
+    },
     data: () => {
         return {
             video: null,

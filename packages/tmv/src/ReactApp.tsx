@@ -2,7 +2,7 @@ import * as React from 'react'
 import ControlsBar from './components/ControlsBar'
 import Error from './components/Error'
 import { loadScript, randomHash, getDevice } from './utils'
-// import './index.less'
+import './index.less'
 
 class Tmvr extends React.Component<any, any> {
     private videoId: any

@@ -20,35 +20,36 @@ export default class App extends React.Component<any, any> {
                         // url="https://wslizhi.gdtv.cn/live/gdws.m3u8?auth_key=1606463949-0-0-057d8173e4e7240542f883d6ba85a191"
                         // url="https://pili-live-hdl.itouchtv.cn/touchtv-1/5fbdb08ea3d5ec2d5128f3a9.flv"
                         // url="https://vod.gdtv.cn/m3u8/202011/160614192836.m3u8"
-                        url="https://sitecdn.itouchtv.cn/sitecdn/assets/videos/demo.flv"
+                        // url="https://sitecdn.itouchtv.cn/sitecdn/assets/videos/demo.flv"
+                        url="http://video2-cloud.itouchtv.cn/video/2020/03/10/45dca3e86339ab421583827925794923__hd.mp4"
                         toNextVideo={() => {
                             alert('下一个视频的回调')
                         }}
                         platform="pc"
-                        type="flv"
+                        type="mp4"
                         // controls={false}
                         autoPlay={false}
                         // mute={true}
-                        // qualityList={[
-                        //     {
-                        //         name: 'fhd',
-                        //         cName: '超清',
-                        //         url:
-                        //             'http://video2-cloud.itouchtv.cn/video/2020/03/10/45dca3e86339ab421583827925794923__hd.mp4'
-                        //     },
-                        //     {
-                        //         name: 'hd',
-                        //         cName: '高清',
-                        //         url:
-                        //             'http://video2-cloud.itouchtv.cn/video/2020/03/18/687d9605547661c31584506645569577__hd.mp4'
-                        //     },
-                        //     {
-                        //         name: 'sd',
-                        //         cName: '标清',
-                        //         url:
-                        //             'http://video2-cloud.itouchtv.cn/video/2020/06/04/0cd6b2d3e3899e771591262568549928__hd.mp4'
-                        //     }
-                        // ]}
+                        qualityList={[
+                            {
+                                name: 'fhd',
+                                cName: '超清',
+                                url:
+                                    'http://video2-cloud.itouchtv.cn/video/2020/03/10/45dca3e86339ab421583827925794923__hd.mp4'
+                            },
+                            {
+                                name: 'hd',
+                                cName: '高清',
+                                url:
+                                    'http://video2-cloud.itouchtv.cn/video/2020/03/18/687d9605547661c31584506645569577__hd.mp4'
+                            },
+                            {
+                                name: 'sd',
+                                cName: '标清',
+                                url:
+                                    'http://video2-cloud.itouchtv.cn/video/2020/06/04/0cd6b2d3e3899e771591262568549928__hd.mp4'
+                            }
+                        ]}
                     />
                 </div>
                 <div className="audio-demo">

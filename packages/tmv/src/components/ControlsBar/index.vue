@@ -1,6 +1,13 @@
 <template>
     <Fragment>
-        <MobileControl v-if="platform === 'mobile'" v-bind="$props" />
+        <MobileControl
+            v-if="platform === 'mobile'"
+            :videoId="videoId"
+            v-bind="$props"
+            :handleVideoPlay="handleVideoPlay"
+            :isPlaying="isPlaying"
+            :isLoading="isLoading"
+        />
         <PCControl
             v-else
             :videoId="videoId"

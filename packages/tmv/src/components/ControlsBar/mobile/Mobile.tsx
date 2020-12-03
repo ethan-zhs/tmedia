@@ -9,22 +9,15 @@ import './mobile.less'
 
 class MobileControl extends React.Component<any, any> {
     private timer: any
-    private video: any
     constructor(props: any) {
         super(props)
 
         this.state = {
             visible: false,
-            isPlaying: false,
             isProgressSliding: false
         }
 
         this.timer = null
-    }
-
-    componentDidMount() {
-        const { videoId } = this.props
-        this.video = document.getElementById(videoId)
     }
 
     render() {

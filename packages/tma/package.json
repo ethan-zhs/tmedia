@@ -8,7 +8,7 @@
     "tsc": "rimraf dist && tsc --outDir ./dist"
   },
   "publishConfig": {
-    "registry": "http://192.168.31.66:4873"
+    "registry": "http://192.168.31.69:4873"
   },
   "author": "",
   "license": "ISC",

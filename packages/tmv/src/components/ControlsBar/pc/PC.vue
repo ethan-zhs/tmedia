@@ -24,7 +24,7 @@
                     <div class="tmv-controls-title"></div>
 
                     <Definition
-                        v-if="qualityList.length"
+                        v-if="qualityList && qualityList.length"
                         :videoId="videoId"
                         :qualityList="qualityList"
                         :autoPlay="autoPlay"
