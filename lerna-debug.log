@@ -1,0 +1,11 @@
+31 error Error: Command failed: git add -- packages/tma/package.json packages/tmv/package.json lerna.json
+31 error warning: LF will be replaced by CRLF in lerna.json.
+31 error The file will have its original line endings in your working directory
+31 error warning: LF will be replaced by CRLF in packages/tma/package.json.
+31 error The file will have its original line endings in your working directory
+31 error warning: LF will be replaced by CRLF in packages/tmv/package.json.
+31 error The file will have its original line endings in your working directory
+31 error fatal: Unable to write new index file
+31 error
+31 error     at makeError (C:\Users\zhuhuishao\Desktop\test\tmedia\node_modules\execa\index.js:174:9)
+31 error     at Promise.all.then.arr (C:\Users\zhuhuishao\Desktop\test\tmedia\node_modules\execa\index.js:278:16)
