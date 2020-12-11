@@ -30,6 +30,7 @@ module.exports = {
         "@typescript-eslint/interface-name-prefix": 0,
         "@typescript-eslint/camelcase": 0,
         "react/prop-types": 0,
-        "react/react-in-jsx-scope": 0
+        "react/react-in-jsx-scope": 0,
+        "react/require-render-return": 0
     }
 };

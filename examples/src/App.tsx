@@ -25,12 +25,12 @@ export default class App extends React.Component<any, any> {
                         toNextVideo={() => {
                             alert('下一个视频的回调')
                         }}
-                        platform="pc"
+                        platform="mobile"
                         type="mp4"
                         // controls={false}
                         autoPlay={false}
                         // mute={true}
-                        qualityList={[
+                        definition={[
                             {
                                 name: 'fhd',
                                 cName: '超清',
