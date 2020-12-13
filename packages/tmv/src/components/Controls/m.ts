@@ -18,7 +18,11 @@ class MobileControls extends Component {
 
         this.addClass('tmv-m-controls')
         this.on(this.el(), 'click', this.handleVideoPlay)
-        this.initChildren(['NextVideo', 'Timer', 'Fullscreen'])
+
+        const controlsBar = this.createEl('div', { class: 'tmv-m-controls-bar-box' })
+        this.appendContent(controlsBar)
+
+        this.initChildren(['NextVideo', 'Timer', 'Fullscreen'], controlsBar)
     }
 
     handleVideoPlay = (e: any) => {

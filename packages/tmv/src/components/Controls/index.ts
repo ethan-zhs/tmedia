@@ -12,7 +12,9 @@ class Controls extends Component {
 
         // const child = options.device === 'mobile' ? 'MobileControls' : 'PCControls'
         this.addClass('tmv-controls-container')
-        this.initChildren(['MobileControls'])
+        const markEl: any = this.createEl('div', { class: 'tmv-controls-mark' })
+        this.appendContent(markEl)
+        this.initChildren(['MobileControls'], markEl)
     }
 }
 

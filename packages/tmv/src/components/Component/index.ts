@@ -17,19 +17,19 @@ class Component {
         this.el_ = this.createEl()
     }
 
-    initChildren(childrens: any) {
+    initChildren(childrens: any, el?: any) {
         childrens = Array.isArray(childrens) ? childrens : [childrens]
 
         childrens.forEach((com: string) => {
-            this.addChild(com)
+            this.addChild(com, el)
         })
     }
 
-    addChild(ComponentClassName: string) {
+    addChild(ComponentClassName: string, el?: any) {
         const ComponentClass = Component.getComponent(ComponentClassName)
 
         const component = new ComponentClass(this.player_, this.options_)
-        this.appendContent(component.el())
+        this.appendContent(component.el(), el)
     }
 
     setState(stateUpdates: any) {
@@ -55,8 +55,11 @@ class Component {
         this.el_.classList.remove(className)
     }
 
-    appendContent(content: any) {
-        this.el_.appendChild(content)
+    appendContent(content: any, el?: any) {
+        if (!el) {
+            el = this.el_
+        }
+        el.appendChild(content)
     }
 
     player() {
