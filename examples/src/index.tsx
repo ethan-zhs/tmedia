@@ -10,7 +10,7 @@ export default class App extends React.Component<any, any> {
     componentDidMount() {
         const video = document.getElementById('tmv')
         const tmv = new Tmv({ 
-            device: 'pc',
+            device: 'mobile',
             // type: 'hls', 
             toNextVideo: () => { alert('下一个视频回调函数') },
             definition: [
