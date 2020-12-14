@@ -21,7 +21,7 @@ export default {
         toNextVideo: {
             default: null
         },
-        qualityList: {
+        definition: {
             default: null
         },
         url: {
@@ -55,7 +55,6 @@ export default {
     },
     mounted() {
         this.video = document.getElementById(this.videoId)
-        console.log(this.$props)
         const tmv = new Tmv(this.$props)
         tmv.load()
         tmv.attachMedia(this.video)

@@ -1,42 +1,46 @@
-import { createDomWithClass } from '../../utils'
+import Component from '../Component'
 
 import './index.less'
 
-class Popover {
-    private _popoverMark: any
+class Popover extends Component {
+    _popoverMark: any
 
-    getPopoverVisibility = function () {
+    constructor(player: any, options: any) {
+        super(player, options)
+    }
+
+    getPopoverVisibility = () => {
         return this._popoverMark.getAttribute('class').indexOf('tmv-popover-hide') < 0
     }
 
-    popoverHide = function () {
+    popoverHide = () => {
         this._popoverMark.classList.add('tmv-popover-hide')
     }
 
-    popoverShow = function () {
+    popoverShow = () => {
         this._popoverMark.classList.remove('tmv-popover-hide')
     }
 
-    render = function (children: any, content: any) {
-        const popover = createDomWithClass('tmv-popover')
-        const popoverPanel = createDomWithClass('tmv-popover-panel')
+    render = (children: any, content: any) => {
+        this.addClass('tmv-popover')
+        const popoverPanel = this.createEl('div', { class: 'tmv-popover-panel' })
 
-        this._popoverMark = createDomWithClass('tmv-popover-mark tmv-popover-hide')
-        this._popoverMark.appendChild(popoverPanel)
-
-        popoverPanel.appendChild(content)
-        popover.appendChild(children)
-        popover.appendChild(this._popoverMark)
+        this._popoverMark = this.createEl('div', { class: 'tmv-popover-mark tmv-popover-hide' })
+        this.appendContent(popoverPanel, this._popoverMark)
+        this.appendContent(content, popoverPanel)
+        this.appendContent(children)
+        this.appendContent(this._popoverMark)
 
         children.onclick = () => {
             const isVisible = this.getPopoverVisibility()
             isVisible ? this.popoverHide() : this.popoverShow()
         }
+        this.on(this.el(), 'mouseleave', this.popoverHide)
 
-        popover.addEventListener('mouseleave', this.popoverHide.bind(this))
-
-        return popover
+        return this.el()
     }
 }
+
+Component.registerComponent('Popover', Popover)
 
 export default Popover

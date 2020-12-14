@@ -1,55 +1,59 @@
-import Progress from '../Progress'
-import Loading from '../Loading'
 import Component from '../Component'
 
 import '../NextVideo'
 import '../FullScreen'
 import '../Timer'
+import '../Progress'
+import '../BigPlayBtn'
 
 class MobileControls extends Component {
     _isProgressSliding: false
 
-    _controls: null
+    controlsWrapper_: any
 
-    isVisible: boolean
+    isVisible_: boolean
 
     constructor(player: any, options: any = {}) {
         super(player, options)
 
-        this.addClass('tmv-m-controls')
-        this.on(this.el(), 'click', this.handleVideoPlay)
-
-        const controlsBar = this.createEl('div', { class: 'tmv-m-controls-bar-box' })
-        this.appendContent(controlsBar)
-
-        this.initChildren(['NextVideo', 'Timer', 'Fullscreen'], controlsBar)
+        this.render()
     }
 
-    handleVideoPlay = (e: any) => {
-        e && e.stopPropagation()
-        const paused = this.player_.paused
-        paused ? this.player_.play() : this.player_.pause()
-    }
-
-    toggleControls(visible: boolean) {
+    toggleControls = (visible: boolean) => {
         if (visible) {
-            this.removeClass('tmv-m-controls-hide')
+            this.removeClass('tmv-m-controls-hide', this.controlsWrapper_)
         } else {
-            this.addClass('tmv-m-controls-hide')
+            !this.player_.paused && this.addClass('tmv-m-controls-hide', this.controlsWrapper_)
         }
-        this.isVisible = visible
+        this.isVisible_ = visible
     }
 
-    handleMackClick() {
-        this.toggleControls(!this.isVisible)
+    handleMarkClick = () => {
+        this.toggleControls(!this.isVisible_)
         this.clearTimer()
 
-        if (this.isVisible) {
+        if (this.isVisible_) {
             this.setTimer(() => {
                 this.toggleControls(false)
                 this.clearTimer()
             }, 4000)
         }
+    }
+
+    render() {
+        this.addClass('tmv-m-controls')
+
+        this.controlsWrapper_ = this.createEl('div', { class: 'tmv-m-controls-bar-box' })
+        const controlsBar = this.createEl('div', { class: 'tmv-m-controls-bar' })
+
+        this.appendContent(this.controlsWrapper_)
+        this.appendContent(controlsBar, this.controlsWrapper_)
+        this.initChildren(['BigPlayBtn'], this.controlsWrapper_)
+        this.initChildren(['NextVideo', 'Timer', 'Progress', 'Fullscreen'], controlsBar)
+
+        this.on(this.player_, 'play', this.handleMarkClick)
+        this.on(this.el(), 'click', this.handleMarkClick)
+        this.on(controlsBar, 'click', (e: any) => e.stopPropagation())
     }
 }
 

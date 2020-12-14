@@ -1,12 +1,19 @@
-import { createDomWithClass } from '../../utils'
+import Component from '../Component'
 
 import './index.less'
 
-const SvgBtn = {
-    render(com: any) {
-        const svgBtn = createDomWithClass('tmv-svg-btn')
-        svgBtn.appendChild(com)
-        return svgBtn
+class SvgBtn extends Component {
+    constructor(player: any, options: any = {}) {
+        super(player, options)
+
+        this.addClass('tmv-svg-btn')
+    }
+
+    render(com: any, disabled?: boolean) {
+        if (disabled) {
+            this.addClass('tmv-svg-btn-disable')
+        }
+        this.appendContent(com)
     }
 }
 

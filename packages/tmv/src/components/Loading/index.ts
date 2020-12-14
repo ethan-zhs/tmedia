@@ -1,58 +1,57 @@
-import { createDomWithClass } from '../../utils'
+import Component from '../Component'
 
 import './index.less'
 
-const Loading = {
-    _loading: null,
-    _isProgressSliding: false,
+class Loading extends Component {
+    _isProgressSliding: boolean
 
-    progressSlidingChange(isSliding: boolean) {
+    constructor(player: any, options: any = {}) {
+        super(player, options)
+
+        this.render()
+    }
+
+    progressSlidingChange = (isSliding: boolean) => {
         this._isProgressSliding = isSliding
-    },
+    }
 
-    startLoading() {
+    startLoading = () => {
         // 正在拖动进度条时不显示loading
-        !this._isProgressSliding && this._loading.classList.remove('tmv-loading-hide')
-    },
+        !this._isProgressSliding && this.removeClass('tmv-loading-hide')
+    }
 
-    cancelLoading() {
-        this._loading.classList.add('tmv-loading-hide')
-    },
+    cancelLoading = () => {
+        this.addClass('tmv-loading-hide')
+    }
 
-    render(video: any) {
-        this._loading = createDomWithClass('tmv-loading')
-        this._loading.innerHTML = `
-                <svg 
-                    class="tmv-loading-ico" 
-                    width="80px" 
-                    height="80px" 
-                    viewBox="0 0 100 100" 
-                    preserveAspectRatio="xMidYMid">
-                    <circle
-                        cx="50"
-                        cy="50"
-                        fill="rgba(0,0,0,0)"
-                        stroke="#f8f8f8"
-                        stroke-width="4"
-                        r="30"
-                        stroke-dasharray="120 100"
-                    ></circle>
-                </svg>`
+    render() {
+        this.addClass('tmv-loading')
+        this.html(`
+            <svg 
+                class="tmv-loading-ico" 
+                width="80px" 
+                height="80px" 
+                viewBox="0 0 100 100" 
+                preserveAspectRatio="xMidYMid">
+                <circle
+                    cx="50"
+                    cy="50"
+                    fill="rgba(0,0,0,0)"
+                    stroke="#f8f8f8"
+                    stroke-width="4"
+                    r="30"
+                    stroke-dasharray="120 100"
+                ></circle>
+            </svg>`)
 
-        this.startLoading = this.startLoading.bind(this)
-        this.cancelLoading = this.cancelLoading.bind(this)
-
-        video.addEventListener('seeking', this.startLoading)
-        video.addEventListener('seeked', this.cancelLoading)
-        video.addEventListener('loadstart', this.startLoading)
-        video.addEventListener('loadedmetadata', this.cancelLoading)
-        video.addEventListener('canplay', this.cancelLoading)
-
-        return this._loading
+        this.player_.addEventListener('seeking', this.startLoading)
+        this.player_.addEventListener('seeked', this.cancelLoading)
+        this.player_.addEventListener('loadstart', this.startLoading)
+        this.player_.addEventListener('loadedmetadata', this.cancelLoading)
+        this.player_.addEventListener('canplay', this.cancelLoading)
     }
 }
 
-// 在外部引用时this可以绑定到Loading对象
-Loading.progressSlidingChange = Loading.progressSlidingChange.bind(Loading)
+Component.registerComponent('Loading', Loading)
 
 export default Loading

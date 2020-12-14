@@ -1,28 +1,33 @@
-import { createDomWithClass } from '../../utils'
-import SvgBtn from '../SvgBtn'
+import Component from '../Component'
 import Popover from '../Popover'
 
 import './index.less'
 
-const popover = new Popover()
+class Volume extends Component {
+    volume_: any
+    popover_: any
+    volumeSliderBase_: any
+    volumeSliderPercent_: any
 
-const Volume = {
-    _video: null,
-    _volumeElem: null,
-    _volume: 0,
+    constructor(player: any, options: any) {
+        super(player, options)
 
-    initVolumeData(options: any) {
+        this.popover_ = new Popover(player, options)
+        this.render()
+    }
+
+    initVolumeData = () => {
         const tmvVolume: any = localStorage.getItem('tmv-volume') || 1
         const tmvMuted: any = localStorage.getItem('tmv-muted') || '0'
-        const { mute, volume = tmvVolume } = options
+        const { mute, volume = tmvVolume } = this.options_
         const isMuted = mute || tmvMuted === '1'
 
-        this._volume = volume || this._volume
+        this.volume_ = volume || this.volume_
         this.volumeChange(isMuted)
-    },
+    }
 
-    volumeChange(isMuted: boolean) {
-        const svgBtn = this._volumeElem.querySelector('.tmv-svg-fill')
+    volumeChange = (isMuted: boolean) => {
+        const svgBtn = this.el().querySelector('.tmv-svg-fill')
         svgBtn.setAttribute(
             'd',
             isMuted
@@ -30,88 +35,83 @@ const Volume = {
                 : 'M8,21 L12,21 L17,26 L17,10 L12,15 L8,15 L8,21 Z M19,14 L19,22 C20.48,21.32 21.5,19.77 21.5,18 C21.5,16.26 20.48,14.74 19,14 ZM19,11.29 C21.89,12.15 24,14.83 24,18 C24,21.17 21.89,23.85 19,24.71 L19,26.77 C23.01,25.86 26,22.28 26,18 C26,13.72 23.01,10.14 19,9.23 L19,11.29 Z'
         )
 
-        this.volumeSliderPercent.style.height = `${isMuted ? 0 : this._volume * 100}%`
+        this.volumeSliderPercent_.style.height = `${isMuted ? 0 : this.volume_ * 100}%`
 
-        this._video.volume = this._volume
-        this._video.muted = isMuted
-    },
+        this.player_.volume = this.volume_
+        this.player_.muted = isMuted
+    }
 
-    showSlider() {
-        const isMuted = this._video.muted
-        const popoverVisible = popover.getPopoverVisibility()
+    showSlider = () => {
+        const isMuted = this.player_.muted
+
+        const popoverVisible = this.popover_.getPopoverVisibility()
         const mute = !popoverVisible ? false : !isMuted
         localStorage.setItem('tmv-muted', mute ? '1' : '0')
 
-        popover.popoverShow()
-        this.volumeChange(mute)
-    },
+        this.popover_.popoverShow()
 
-    slideStart() {
+        this.volumeChange(mute)
+    }
+
+    slideStart = () => {
         document.addEventListener('mousemove', this.slideMoveOrClick, false)
         document.addEventListener('mouseup', this.slideEnd, false)
-    },
+    }
 
-    slideMoveOrClick(e: any) {
+    slideMoveOrClick = (e: any) => {
         try {
-            const maxHeight = this.volumeSliderBase.clientHeight
-            const { top } = this.volumeSliderBase.getBoundingClientRect()
+            const maxHeight = this.volumeSliderBase_.clientHeight
+            const { top } = this.volumeSliderBase_.getBoundingClientRect()
 
             let my = e.pageY - top - document.documentElement.scrollTop // 滑动的距离
             my = my > maxHeight ? maxHeight : my < 0 ? 0 : my
 
-            this._volume = 1 - my / maxHeight || this._volume
-            localStorage.setItem('tmv-volume', this._volume)
-            localStorage.setItem('tmv-muted', this._volume === 0 ? '1' : '0')
+            this.volume_ = 1 - my / maxHeight || this.volume_
+            localStorage.setItem('tmv-volume', this.volume_)
+            localStorage.setItem('tmv-muted', this.volume_ === 0 ? '1' : '0')
 
-            this.volumeChange(this._volume === 0)
+            this.volumeChange(this.volume_ === 0)
         } catch (err) {}
-    },
+    }
 
-    slideEnd() {
+    slideEnd = () => {
         document.removeEventListener('mousemove', this.slideMoveOrClick, false)
         document.removeEventListener('mouseup', this.slideEnd, false)
-    },
+    }
 
-    volumeSlider() {
-        const volumeSlider = createDomWithClass('tmv-volume-slider')
-        this.volumeSliderBase = createDomWithClass('tmv-volume-slider-base')
-        this.volumeSliderPercent = createDomWithClass('tmv-volume-slider-percent')
-        const volumeSliderPoint = createDomWithClass('tmv-volume-slider-point')
+    volumeSlider = () => {
+        const volumeSlider = this.createEl('div', { class: 'tmv-volume-slider' })
+        this.volumeSliderBase_ = this.createEl('div', { class: 'tmv-volume-slider-base' })
+        this.volumeSliderPercent_ = this.createEl('div', { class: 'tmv-volume-slider-percent' })
+        const volumeSliderPoint = this.createEl('div', { class: 'tmv-volume-slider-point' })
 
-        volumeSlider.appendChild(this.volumeSliderBase)
-        this.volumeSliderBase.appendChild(this.volumeSliderPercent)
-        this.volumeSliderPercent.appendChild(volumeSliderPoint)
+        this.appendContent(this.volumeSliderBase_, volumeSlider)
+        this.appendContent(this.volumeSliderPercent_, this.volumeSliderBase_)
+        this.appendContent(volumeSliderPoint, this.volumeSliderPercent_)
 
-        this.slideMoveOrClick = this.slideMoveOrClick.bind(this)
-        this.slideEnd = this.slideEnd.bind(this)
-        this.slideStart = this.slideStart.bind(this)
-
-        volumeSlider.onclick = e => e.stopPropagation()
-        this.volumeSliderBase.onclick = this.slideMoveOrClick
+        this.on(volumeSlider, 'click', (e: any) => e.stopPropagation())
+        this.on(this.volumeSliderBase_, 'click', this.slideMoveOrClick)
         volumeSliderPoint.onmousedown = this.slideStart
 
         return volumeSlider
-    },
+    }
 
-    render(video: any, options: any = {}) {
-        const volume = createDomWithClass('tmv-controls-volume')
-        const volumeBtn = createDomWithClass('tmv-controls-volume-btn')
-
-        this._video = video
-        this._volumeElem = volume
+    render() {
+        this.addClass('tmv-controls-volume')
+        const volumeBtn = this.createEl('div', { class: 'tmv-controls-volume-btn' })
 
         volumeBtn.innerHTML = `
             <svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">
                 <path class="tmv-svg-fill" d="M8,21 L12,21 L17,26 L17,10 L12,15 L8,15 L8,21 Z M19,14 L19,22 C20.48,21.32 21.5,19.77 21.5,18 C21.5,16.26 20.48,14.74 19,14 ZM19,11.29 C21.89,12.15 24,14.83 24,18 C24,21.17 21.89,23.85 19,24.71 L19,26.77 C23.01,25.86 26,22.28 26,18 C26,13.72 23.01,10.14 19,9.23 L19,11.29 Z"></path>
             </svg>`
 
-        volume.appendChild(popover.render(volumeBtn, this.volumeSlider()))
+        this.appendContent(this.popover_.render(volumeBtn, this.volumeSlider()))
         volumeBtn.onclick = null
-        volume.onclick = this.showSlider.bind(this)
-        this.initVolumeData(options)
-
-        return SvgBtn.render(volume)
+        this.on(this.el(), 'click', this.showSlider)
+        this.initVolumeData()
     }
 }
+
+Component.registerComponent('Volume', Volume)
 
 export default Volume

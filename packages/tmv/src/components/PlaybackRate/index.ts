@@ -1,36 +1,42 @@
-import { createDomWithClass } from '../../utils'
+import Component from '../Component'
 import Popover from '../popover'
 
 import './index.less'
 
-const popover = new Popover()
+const DEFAULT_LIST = [
+    {
+        value: '0.5'
+    },
+    {
+        value: '1.0',
+        default: true
+    },
+    {
+        value: '1.25'
+    },
+    {
+        value: '1.5'
+    },
+    {
+        value: '2.0'
+    }
+]
+class PlaybackRate extends Component {
+    popover_: any
+    currRate_: string | number
+    playbackrateBtn_: any
+    playbackRateElemList_: any
+    playbackRateList_: any
 
-const PlaybackRate = {
-    _video: null,
-    _currRate: '1.0',
-    _playbackrateBtn: null,
-    _playbackRateElemList: [],
-    _playbackRateList: [
-        {
-            value: '0.5'
-        },
-        {
-            value: '1.0',
-            default: true
-        },
-        {
-            value: '1.25'
-        },
-        {
-            value: '1.5'
-        },
-        {
-            value: '2.0'
-        }
-    ],
+    constructor(player: any, options: any) {
+        super(player, options)
 
-    initPlaybackRateData(options: any) {
-        const { playbackRateList = this._playbackRateList } = options
+        this.popover_ = new Popover(player, options)
+        this.render()
+    }
+
+    initPlaybackRateData = () => {
+        const { playbackRateList = DEFAULT_LIST } = this.options_
 
         const localRate = playbackRateList.filter((item: any) => item.value == localStorage.getItem('tmv-playbackrate'))
         const defaultRate = playbackRateList.filter((item: any) => item.default)
@@ -44,35 +50,35 @@ const PlaybackRate = {
             defaultRateValue = defaultRate[0].value
         }
 
-        this._playbackRateList = playbackRateList
-        this.changePlaybackRate(defaultRateValue)
-    },
+        this.playbackRateList_ = playbackRateList
+        return defaultRateValue
+    }
 
     changePlaybackRate(rate: string | number) {
-        this._currRate = rate
-        this._playbackrateBtn.innerHTML = `${this._currRate == 1 ? '倍速' : this._currRate + 'x'}`
-        this._video.playbackRate = this._currRate
+        this.currRate_ = rate
+        this.playbackrateBtn_.innerHTML = `${this.currRate_ == 1 ? '倍速' : this.currRate_ + 'x'}`
+        this.player_.playbackRate = this.currRate_
 
-        this._playbackRateElemList.map(({ dom, value }: any) => {
+        this.playbackRateElemList_.map(({ dom, value }: any) => {
             if (value === rate) {
-                dom.classList.add('tmv-playbackrate-item-active')
+                this.addClass('tmv-playbackrate-item-active', dom)
             } else {
-                dom.classList.remove('tmv-playbackrate-item-active')
+                this.removeClass('tmv-playbackrate-item-active', dom)
             }
         })
-    },
+    }
 
-    handleChangeRate(rate: string | number) {
+    handleChangeRate = (rate: string | number) => {
         this.changePlaybackRate(rate)
-        popover.popoverHide()
+        this.popover_.popoverHide()
 
         localStorage.setItem('tmv-playbackrate', rate.toString())
-    },
+    }
 
-    playbackRateList() {
-        const playbackRateListElem = createDomWithClass('tmv-playbackrate-list')
-        this._playbackRateElemList = this._playbackRateList.map((item: any) => {
-            const pbrItem = createDomWithClass('tmv-playbackrate-item')
+    playbackRateList = (rate: string | number) => {
+        const playbackRateListElem = this.createEl('div', { class: 'tmv-playbackrate-list' })
+        this.playbackRateElemList_ = this.playbackRateList_.map((item: any) => {
+            const pbrItem = this.createEl('div', { class: 'tmv-playbackrate-item' })
             pbrItem.onclick = () => this.handleChangeRate(item.value)
             pbrItem.innerHTML = `${item.value}x`
             playbackRateListElem.appendChild(pbrItem)
@@ -82,20 +88,20 @@ const PlaybackRate = {
             }
         })
 
+        this.changePlaybackRate(rate)
+
         return playbackRateListElem
-    },
+    }
 
-    render(video: any, options: any = {}) {
-        const playbackrate = createDomWithClass('tmv-playbackrate')
-        this._playbackrateBtn = createDomWithClass('tmv-playbackrate-btn')
+    render() {
+        this.addClass('tmv-playbackrate')
+        this.playbackrateBtn_ = this.createEl('div', { class: 'tmv-playbackrate-btn' })
 
-        this._video = video
-
-        playbackrate.appendChild(popover.render(this._playbackrateBtn, this.playbackRateList()))
-        this.initPlaybackRateData(options)
-
-        return playbackrate
+        const currRate = this.initPlaybackRateData()
+        this.appendContent(this.popover_.render(this.playbackrateBtn_, this.playbackRateList(currRate)))
     }
 }
+
+Component.registerComponent('PlaybackRate', PlaybackRate)
 
 export default PlaybackRate

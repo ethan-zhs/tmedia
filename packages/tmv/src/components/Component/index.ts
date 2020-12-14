@@ -47,12 +47,20 @@ class Component {
         return el
     }
 
-    addClass(className: string) {
-        this.el_.classList.add(className)
+    addClass(className: string, el?: any) {
+        if (!el) {
+            el = this.el_
+        }
+
+        el.classList.add(className)
     }
 
-    removeClass(className: string) {
-        this.el_.classList.remove(className)
+    removeClass(className: string, el?: any) {
+        if (!el) {
+            el = this.el_
+        }
+
+        el.classList.remove(className)
     }
 
     appendContent(content: any, el?: any) {

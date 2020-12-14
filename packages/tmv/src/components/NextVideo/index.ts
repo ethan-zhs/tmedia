@@ -1,5 +1,4 @@
 import Component from '../Component'
-import SvgBtn from '../SvgBtn'
 
 import './index.less'
 

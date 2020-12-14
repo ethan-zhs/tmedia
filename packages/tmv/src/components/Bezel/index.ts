@@ -1,11 +1,16 @@
-import { createDomWithClass } from '../../utils'
+import Component from '../Component'
 import './index.less'
 
-const Bezel = {
-    _bezel: null,
-    _bezelIcon: null,
+class Bezel extends Component {
+    _bezelIcon: any
 
-    bezelChange(type: string) {
+    constructor(player: any, options: any) {
+        super(player, options)
+
+        this.render()
+    }
+
+    bezelChange = (type: string) => {
         switch (type) {
             case 'play':
                 this._bezelIcon.innerHTML = `
@@ -20,19 +25,21 @@ const Bezel = {
                     </svg>`
                 break
         }
-        this._bezel.classList.remove('tmv-bezel-show')
+        this.removeClass('tmv-bezel-show')
         setTimeout(() => {
-            this._bezel.classList.add('tmv-bezel-show')
+            this.addClass('tmv-bezel-show')
         }, 10)
-    },
+    }
 
     render() {
-        this._bezel = createDomWithClass('tmv-bezel tmv-bezel-show')
-        this._bezelIcon = createDomWithClass('tmv-bezel-icon')
+        this.addClass('tmv-bezel')
+        this.addClass('tmv-bezel-show')
+        this._bezelIcon = this.createEl('div', { class: 'tmv-bezel-icon' })
 
-        this._bezel.appendChild(this._bezelIcon)
-        return this._bezel
+        this.appendContent(this._bezelIcon)
     }
 }
+
+Component.registerComponent('Bezel', Bezel)
 
 export default Bezel

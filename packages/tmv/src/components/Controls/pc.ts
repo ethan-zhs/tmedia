@@ -1,95 +1,78 @@
-import Fullscreen from '../Fullscreen'
-import Progress from '../Progress'
-import Loading from '../Loading'
-import Bezel from '../Bezel'
-import NextVideo from '../NextVideo'
-import PlayBtn from '../PlayBtn'
-import Volume from '../Volume'
-import Setting from '../Setting'
-import Timer from '../Timer'
-import PlaybackRate from '../PlaybackRate'
-import Definition from '../Definition'
-import { createDomWithClass } from '../../utils'
+import Component from '../Component'
 
-const PCControls = {
-    _timer: null,
-    _video: null,
-    _options: {},
+import '../NextVideo'
+import '../FullScreen'
+import '../Timer'
+import '../Progress'
+import '../Title'
+import '../Setting'
+import '../Volume'
+import '../PlayBtn'
+import '../PlaybackRate'
+import '../Definition'
 
-    renderControls() {
-        const controls = createDomWithClass('tmv-controls tmv-controls-hide')
-        const controlsBar = createDomWithClass('tmv-controls-bar')
-        const controlsCom = createDomWithClass('tmv-controls-coms')
+class PCControls extends Component {
+    _isProgressSliding: false
 
-        controlsCom.appendChild(PlayBtn.render(this._video, this.handleVideoPlay.bind(this)))
-        // controlsCom.appendChild(NextVideo.render(this._options.toNextVideo))
-        // controlsCom.appendChild(Timer.render(this._video))
-        controlsCom.appendChild(createDomWithClass('tmv-controls-title'))
-        controlsCom.appendChild(Definition.render(this._video, this._options))
-        controlsCom.appendChild(PlaybackRate.render(this._video, this._options))
-        controlsCom.appendChild(Volume.render(this._video))
-        controlsCom.appendChild(Setting.render())
-        // controlsCom.appendChild(Fullscreen.render(this._video))
+    controlsWrapper_: any
 
-        controlsBar.appendChild(Progress.render(this._video, Loading.progressSlidingChange))
-        controlsBar.appendChild(controlsCom)
-        controls.appendChild(controlsBar)
+    constructor(player: any, options: any = {}) {
+        super(player, options)
 
-        controlsBar.onclick = e => e.stopPropagation()
-        controlsBar.ondblclick = e => e.stopPropagation()
+        this.addClass('tmv-controls')
 
-        return controls
-    },
+        this.controlsWrapper_ = this.createEl('div', { class: 'tmv-controls-wrapper' })
+        const controlsBar = this.createEl('div', { class: 'tmv-controls-bar' })
+        const controlsComs = this.createEl('div', { class: 'tmv-controls-coms' })
 
-    clearTimer() {
-        if (this._timer) {
-            clearTimeout(this._timer)
-            this._timer = null
-        }
-    },
+        this.on(controlsBar, 'click', (e: any) => e.stopPropagation())
+        this.on(controlsBar, 'dblclick', (e: any) => e.stopPropagation())
 
-    handleVideoPlay(e: any) {
-        e && e.stopPropagation()
-        const paused = this._video.paused
-        paused ? this._video.play() : this._video.pause()
-        Bezel.bezelChange(paused ? 'play' : 'pause')
-    },
+        this.appendContent(this.controlsWrapper_)
+        this.appendContent(controlsBar, this.controlsWrapper_)
+        this.initChildren(['Progress'], controlsBar)
+        this.appendContent(controlsComs, controlsBar)
+        this.initChildren(
+            ['PlayBtn', 'NextVideo', 'Timer', 'Title', 'Definition', 'PlaybackRate', 'Volume', 'Setting', 'Fullscreen'],
+            controlsComs
+        )
+        this.render()
+    }
 
-    render(video: any, options: any) {
-        this._video = video
-        this._options = options
+    initControlMarkEvents = () => {
+        this.on(this.el(), 'click', () => {
+            const clickEvent = document.createEvent('MouseEvents')
+            clickEvent.initEvent('click', true, true)
+            this.player_.dispatchEvent(clickEvent)
+        })
 
-        const controlMark = createDomWithClass('tmv-controls-mark')
-        const controls = this.renderControls()
-        const loading = Loading.render(this._video)
-
-        controlMark.appendChild(Bezel.render())
-        controlMark.appendChild(loading)
-        controlMark.appendChild(controls)
-        controlMark.addEventListener('mousemove', () => {
-            controls.classList.remove('tmv-controls-hide')
+        this.on(this.el(), 'mousemove', () => {
+            this.removeClass('tmv-controls-hide', this.controlsWrapper_)
             this.clearTimer()
 
-            this._timer = setTimeout(() => {
-                !this._video.paused && controls.classList.add('tmv-controls-hide')
+            this.setTimer(() => {
+                !this.player_.paused && this.addClass('tmv-controls-hide', this.controlsWrapper_)
                 this.clearTimer()
             }, 3000)
         })
 
-        controlMark.addEventListener('mouseleave', () => {
-            !this._video.paused && controls.classList.add('tmv-controls-hide')
+        this.on(this.el(), 'mouseleave', () => {
+            !this.player_.paused && this.addClass('tmv-controls-hide', this.controlsWrapper_)
             this.clearTimer()
         })
 
-        controlMark.addEventListener('click', this.handleVideoPlay.bind(this))
-        controlMark.addEventListener('dblclick', () => {
+        this.on(this.el(), 'dblclick', () => {
             const clickEvent = document.createEvent('MouseEvents')
             clickEvent.initEvent('dblclick', true, true)
-            this._video.dispatchEvent(clickEvent)
+            this.player_.dispatchEvent(clickEvent)
         })
+    }
 
-        return controlMark
+    render() {
+        this.initControlMarkEvents()
     }
 }
+
+Component.registerComponent('PCControls', PCControls)
 
 export default PCControls

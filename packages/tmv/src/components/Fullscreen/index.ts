@@ -1,6 +1,5 @@
 import { loadScript, getDevice } from '../../utils'
 import Component from '../Component'
-import SvgBtn from '../svgBtn'
 
 import './index.less'
 
@@ -117,8 +116,6 @@ class Fullscreen extends Component {
 
     handleFullscreen = () => {
         const videoElem: any = this.player_?.parentNode
-        console.log(videoElem)
-
         this.isFullscreen ? this.exitFullscreen() : this.requestFullscreen(videoElem)
     }
 
