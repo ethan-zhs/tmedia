@@ -36,10 +36,12 @@ class PlaybackRate extends Component {
     }
 
     initPlaybackRateData = () => {
-        const { playbackRateList = DEFAULT_LIST } = this.options_
+        this.playbackRateList_ = this.options_.playbackRateList || DEFAULT_LIST
 
-        const localRate = playbackRateList.filter((item: any) => item.value == localStorage.getItem('tmv-playbackrate'))
-        const defaultRate = playbackRateList.filter((item: any) => item.default)
+        const localRate = this.playbackRateList_.filter(
+            (item: any) => item.value == localStorage.getItem('tmv-playbackrate')
+        )
+        const defaultRate = this.playbackRateList_.filter((item: any) => item.default)
 
         // 优先级，先判断本地，再判断默认值, 否则取1
         let defaultRateValue = 1
@@ -50,7 +52,6 @@ class PlaybackRate extends Component {
             defaultRateValue = defaultRate[0].value
         }
 
-        this.playbackRateList_ = playbackRateList
         return defaultRateValue
     }
 

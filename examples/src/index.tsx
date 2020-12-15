@@ -36,7 +36,7 @@ export default class App extends React.Component<any, any> {
             
         })
         tmv.attachMedia(video)
-        tmv.load()       
+        tmv.load()      
     }
 
     render() {

@@ -7,13 +7,15 @@ class Tmv {
 
     player_: any
 
+    video_: any
+
     constructor(options: any = {}) {
         this.options_ = options
     }
 
     attachMedia(video: any) {
-        const video_ = video.cloneNode()
-        this.player_ = new Player(video_, this.options_)
+        this.video_ = video.cloneNode()
+        this.player_ = new Player(this.video_, this.options_)
         this.player_.attachMedia(video)
     }
 
@@ -23,6 +25,10 @@ class Tmv {
 
     play() {
         this.player_.play()
+    }
+
+    on = (eventName: string, cb: any) => {
+        this.video_.addEventListener(eventName, cb)
     }
 }
 

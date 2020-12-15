@@ -10,24 +10,6 @@
                 platform="pc"
                 :autoPlay="false"
                 :toNextVideo="toNextVideo"
-                :playbackRateList="[
-                    {
-                        value: '0.5'
-                    },
-                    {
-                        value: '1.0',
-                        default: true
-                    },
-                    {
-                        value: '1.25'
-                    },
-                    {
-                        value: '1.5'
-                    },
-                    {
-                        value: '2.5'
-                    }
-                ]"
             />
         </div>
         <div class="audio-demo">
