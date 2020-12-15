@@ -11,6 +11,7 @@ module.exports = {
     mode: 'production',
     devtool: 'source-map',
     entry: {
+        tmv: resolve('src/index.ts'),
         tmvv: resolve('src/VueApp.vue'),
         tmvr: resolve('src/ReactApp.tsx')
     },

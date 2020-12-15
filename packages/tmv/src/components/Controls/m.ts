@@ -7,7 +7,7 @@ import '../Progress'
 import '../BigPlayBtn'
 
 class MobileControls extends Component {
-    _isProgressSliding: false
+    isProgressSliding_: false
 
     controlsWrapper_: any
 
@@ -52,6 +52,10 @@ class MobileControls extends Component {
         this.initChildren(['NextVideo', 'Timer', 'Progress', 'Fullscreen'], controlsBar)
 
         this.on(this.player_, 'play', this.handleMarkClick)
+
+        // 播放结束显示播放器控件
+        this.on(this.player_, 'ended', () => this.toggleControls(true))
+
         this.on(this.el(), 'click', this.handleMarkClick)
         this.on(controlsBar, 'click', (e: any) => e.stopPropagation())
     }

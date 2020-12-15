@@ -9,6 +9,14 @@ class BigPlayBtn extends Component {
         this.render()
     }
 
+    startLoading = () => {
+        this.addClass('tmv-big-play-btn-hide')
+    }
+
+    cancelLoading = () => {
+        this.removeClass('tmv-big-play-btn-hide')
+    }
+
     render() {
         this.addClass('tmv-big-play-btn')
 
@@ -26,6 +34,11 @@ class BigPlayBtn extends Component {
 
         const playBtnSvgPath = this.el().querySelector('.tmv-svg-fill')
 
+        this.on(this.player_, 'seeking', this.startLoading)
+        this.on(this.player_, 'seeked', this.cancelLoading)
+        this.on(this.player_, 'loadstart', this.startLoading)
+        this.on(this.player_, 'loadedmetadata', this.cancelLoading)
+        this.on(this.player_, 'canplay', this.cancelLoading)
         this.on(this.player_, 'play', () => {
             playBtnSvgPath?.setAttribute('d', playPath)
         })

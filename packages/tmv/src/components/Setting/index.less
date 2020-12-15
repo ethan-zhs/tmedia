@@ -1,10 +1,8 @@
-.tmv-setting {
-    width: 40px;
-    height: 40px;
+@import '../../global/styles/global.less';
+@import '../../global/styles/theme.less';
 
-    .tmv-svg-fill {
-        fill: #fff;
-    }
+.tmv-setting {
+    .tmv-svg-btn;
     
     .tmv-popover .tmv-popover-mark {
         right: -40px;
@@ -49,7 +47,7 @@
         }
 
         .tmv-switch-active {
-            background: #ff3232;
+            background: @theme-main-color;
 
             .tmv-switch-point {
                 background: #fff;

@@ -2,7 +2,7 @@
   "name": "@tmedia/tmv",
   "version": "0.0.4",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/tmv.js",
   "scripts": {
     "build": "rimraf dist && webpack --config ./config/webpack.config --progress",
     "tsc": "rimraf dist && tsc --outDir ./dist"

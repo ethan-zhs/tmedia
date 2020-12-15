@@ -3,7 +3,7 @@ import Component from '../Component'
 import './index.less'
 
 class Loading extends Component {
-    _isProgressSliding: boolean
+    isProgressSliding_: boolean
 
     constructor(player: any, options: any = {}) {
         super(player, options)
@@ -11,17 +11,15 @@ class Loading extends Component {
         this.render()
     }
 
-    progressSlidingChange = (isSliding: boolean) => {
-        this._isProgressSliding = isSliding
-    }
-
     startLoading = () => {
         // 正在拖动进度条时不显示loading
-        !this._isProgressSliding && this.removeClass('tmv-loading-hide')
+        !this.state_.isProgressSliding && this.removeClass('tmv-loading-hide')
+        this.setState({ isLoading: true })
     }
 
     cancelLoading = () => {
         this.addClass('tmv-loading-hide')
+        this.setState({ isLoading: false })
     }
 
     render() {
@@ -49,6 +47,8 @@ class Loading extends Component {
         this.player_.addEventListener('loadstart', this.startLoading)
         this.player_.addEventListener('loadedmetadata', this.cancelLoading)
         this.player_.addEventListener('canplay', this.cancelLoading)
+
+        this.setState({ a: 1 })
     }
 }
 

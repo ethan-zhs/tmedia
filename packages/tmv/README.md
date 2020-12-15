@@ -2,7 +2,7 @@
 
 Tmedia Video Player 是一个跨平台的视频播放器，解决多端视频播放器功能样式统一问题。
 1. 支持PC端和移动端样式
-2. 同时支持 `React Vue` 组件，也支持原生js引入使用(待开发)
+2. 同时支持 `React Vue` 组件，也支持原生js引入使用
 3. 支持视频源`mp4, hls, flv`
 
 ## Install
@@ -12,6 +12,30 @@ npm install @tmedia/tmv --registry http://192.168.31.66:4873
 ```
 
 ## Usage
+
+### CDN引入
+
+```javascript
+<script src="https://cdndomian/tmv.js"></script>
+
+var video = document.getElementById('tmv')
+
+var tmv = new Tmv(options)
+tmv.attachMedia(video)
+tmv.load()
+```
+
+### NPM引入
+
+```javascript
+import Tmv from '@tmedia/tmv'
+
+const video = document.getElementById('tmv')
+
+const tmv = new Tmv(options)
+tmv.attachMedia(video)
+tmv.load()
+```
 
 ### React Component
 
@@ -61,6 +85,6 @@ import '@tmedia/tmv/dist/tmvv.css'
 | platform | string | "pc" | 播放平台，支持`"pc"`和`"mobile"`两种UI | 是 |
 | type | string | "mp4" | 播放源类型, 决定播放视频的方式, 取值包括`["hls","flv","mp4"] `| 是 |
 | controls | string | true | 是否显示播放控件 | 是 |
-| qualityList | array | null | 画质选择列表, 数据结构[{name: 'hd', cName: '高清', url: ''},{name: 'sd', cName: '标清', url: ''}] | 是 |
+| definition | array | null | 画质选择列表, 数据结构[{name: 'hd', cName: '高清', url: ''},{name: 'sd', cName: '标清', url: ''}] | 是 |
 | playbackRateList | array | null | 播放速率列表, 数据结构[{value: '1', default: true},{value: '1.5'}] | 是 |
 | toNextVideo | function | null | 点击下一条或播放结束回调函数 | 是 |

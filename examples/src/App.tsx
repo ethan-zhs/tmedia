@@ -28,7 +28,7 @@ export default class App extends React.Component<any, any> {
                         platform="mobile"
                         type="mp4"
                         // controls={false}
-                        autoPlay={false}
+                        autoPlay={true}
                         // mute={true}
                         definition={[
                             {

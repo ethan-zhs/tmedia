@@ -56,9 +56,8 @@ export default {
     mounted() {
         this.video = document.getElementById(this.videoId)
         const tmv = new Tmv(this.$props)
-        tmv.load()
         tmv.attachMedia(this.video)
-        tmv.play()
+        tmv.load()
     }
 }
 </script>

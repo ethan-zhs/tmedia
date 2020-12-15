@@ -4,14 +4,13 @@ import Component from '../Component'
 import './index.less'
 
 class Progress extends Component {
-    _video: any
-    _isLive: boolean
-    _historyPauseStatus: boolean
-    _progressHoverElem: any
-    _progressBufferElem: any
-    _progressBarElem: any
-    _progressPointElem: any
-    _progressTimeElem: any
+    isLive_: boolean
+    historyPauseStatus_: boolean
+    progressHoverElem_: any
+    progressBufferElem_: any
+    progressBarElem_: any
+    progressPointElem_: any
+    progressTimeElem_: any
 
     constructor(player: any, options: any = {}) {
         super(player, options)
@@ -19,38 +18,38 @@ class Progress extends Component {
         this.render()
     }
 
-    handleProgressChange() {
+    handleProgressChange = () => {
         this.player_.addEventListener('timeupdate', () => {
-            if (!this._isLive) {
+            if (!this.isLive_) {
                 const timeRange = this.player_.buffered
 
-                this._progressBufferElem.style.width = `${
+                this.progressBufferElem_.style.width = `${
                     timeRange.length > 0 ? (timeRange.end(timeRange.length - 1) / this.player_.duration) * 100 : 0
                 }%`
 
-                this._progressBarElem.style.width = `${(this.player_.currentTime / this.player_.duration) * 100}%`
-                this._progressPointElem.style.transform = `translate(${this._progressBarElem.clientWidth}px ,-50%)`
+                this.progressBarElem_.style.width = `${(this.player_.currentTime / this.player_.duration) * 100}%`
+                this.progressPointElem_.style.transform = `translate(${this.progressBarElem_.clientWidth}px ,-50%)`
             }
         })
 
         this.player_.addEventListener('durationchange', () => {
-            this._isLive = !this.player_.duration || this.player_.duration === Infinity
+            this.isLive_ = !this.player_.duration || this.player_.duration === Infinity
         })
     }
 
     progressMove = (e: any) => {
         const pos: any = this.getProgressPos(e.pageX)
 
-        this._progressHoverElem.style.width = `${pos.percent * 100}%`
-        this._progressTimeElem.style.left = `${pos.hoveredTimePos}px`
-        this._progressTimeElem.innerHTML = timeFormat(pos.percent * this.player_.duration)
+        this.progressHoverElem_.style.width = `${pos.percent * 100}%`
+        this.progressTimeElem_.style.left = `${pos.hoveredTimePos}px`
+        this.progressTimeElem_.innerHTML = timeFormat(pos.percent * this.player_.duration)
     }
 
     slideStart = () => {
         // 为了更好的体验，在移动触点的时候我选择将视频暂停
-        this._historyPauseStatus = this.player_.paused
+        this.historyPauseStatus_ = this.player_.paused
         this.player_.pause()
-        // this.progressSlidingChange(true)
+        this.setState({ isProgressSliding: true })
 
         document.addEventListener('mousemove', this.slideMoveOrClick, false)
         document.addEventListener('mouseup', this.slideEnd, false)
@@ -66,33 +65,31 @@ class Progress extends Component {
 
         this.player_.currentTime = pos.percent * this.player_.duration
 
-        this._progressBarElem.style.width = `${pos.percent * 100}%`
-        this._progressTimeElem.style.left = `${pos.hoveredTimePos}px`
-        this._progressPointElem.style.transform = `translate(${this._progressBarElem.clientWidth}px ,-50%)`
+        this.progressBarElem_.style.width = `${pos.percent * 100}%`
+        this.progressTimeElem_.style.left = `${pos.hoveredTimePos}px`
+        this.progressPointElem_.style.transform = `translate(${this.progressBarElem_.clientWidth}px ,-50%)`
     }
 
     slideEnd = () => {
-        // this.progressSlidingChange(false)
+        this.setState({ isProgressSliding: false })
         document.removeEventListener('mousemove', this.slideMoveOrClick, false)
         document.removeEventListener('mouseup', this.slideEnd, false)
         document.removeEventListener('touchmove', this.slideMoveOrClick, false)
         document.removeEventListener('touchend', this.slideEnd, false)
 
         // 拖动进度条结束时，恢复播放状态
-        !this._historyPauseStatus && this.player_.play()
+        !this.historyPauseStatus_ && this.player_.play()
     }
 
-    getProgressPos(pageX: number) {
+    getProgressPos = (pageX: number) => {
         try {
-            const progressElem = this.el().querySelector('.tmv-progress-base')
-            const progressTimeElem = this.el().querySelector('.tmv-progress-time')
-            const maxWidth = progressElem.clientWidth
-            const { left } = progressElem.getBoundingClientRect()
+            const maxWidth = this.el().clientWidth
+            const { left } = this.el().getBoundingClientRect()
 
             let mx = pageX - left - document.documentElement.scrollLeft // 滑动的距离
             mx = mx > maxWidth ? maxWidth : mx < 0 ? 0 : mx
 
-            const phtw = progressTimeElem.offsetWidth
+            const phtw = this.progressTimeElem_.offsetWidth
 
             // 鼠标悬浮时间模块位置计算
             let hoveredTimePos = mx - phtw / 2
@@ -112,28 +109,26 @@ class Progress extends Component {
         } catch (err) {}
     }
 
-    render(progressSlidingChange?: (isSliding: boolean) => void) {
+    render() {
         this.addClass('tmv-controls-progress-bar')
         const progressBase = this.createEl('div', { class: 'tmv-progress-base' })
-        this._progressHoverElem = this.createEl('div', { class: 'tmv-progress-hover' })
-        this._progressBufferElem = this.createEl('div', { class: 'tmv-progress-buffer' })
-        this._progressBarElem = this.createEl('div', { class: 'tmv-progress' })
-        this._progressPointElem = this.createEl('div', { class: 'tmv-progress-point' })
-        this._progressTimeElem = this.createEl('div', { class: 'tmv-progress-time' })
+        this.progressHoverElem_ = this.createEl('div', { class: 'tmv-progress-hover' })
+        this.progressBufferElem_ = this.createEl('div', { class: 'tmv-progress-buffer' })
+        this.progressBarElem_ = this.createEl('div', { class: 'tmv-progress' })
+        this.progressPointElem_ = this.createEl('div', { class: 'tmv-progress-point' })
+        this.progressTimeElem_ = this.createEl('div', { class: 'tmv-progress-time' })
 
-        this.appendContent(this._progressHoverElem, progressBase)
-        this.appendContent(this._progressBufferElem, progressBase)
-        this.appendContent(this._progressBarElem, progressBase)
+        this.appendContent(this.progressHoverElem_, progressBase)
+        this.appendContent(this.progressBufferElem_, progressBase)
+        this.appendContent(this.progressBarElem_, progressBase)
         this.appendContent(progressBase)
-        this.appendContent(this._progressPointElem)
-        this.appendContent(this._progressTimeElem)
-
-        // this.progressSlidingChange = progressSlidingChange
+        this.appendContent(this.progressPointElem_)
+        this.appendContent(this.progressTimeElem_)
 
         this.on(this.el(), 'mousemove', this.progressMove)
         this.on(this.el(), 'click', this.slideMoveOrClick)
-        this.on(this._progressPointElem, 'mousedown', this.slideStart)
-        this.on(this._progressPointElem, 'touchstart', this.slideStart)
+        this.on(this.progressPointElem_, 'mousedown', this.slideStart)
+        this.on(this.progressPointElem_, 'touchstart', this.slideStart)
 
         this.handleProgressChange()
     }

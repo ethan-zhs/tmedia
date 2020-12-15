@@ -4,7 +4,7 @@ class Component {
 
     el_: any
 
-    state: {}
+    state_: any
 
     timer_: any
 
@@ -13,6 +13,8 @@ class Component {
     constructor(player: any, options: any = {}) {
         this.options_ = options
         this.player_ = player
+
+        this.state_ = this.options_.state || {}
 
         this.el_ = this.createEl()
     }
@@ -33,8 +35,7 @@ class Component {
     }
 
     setState(stateUpdates: any) {
-        this.state = stateUpdates
-        // this.render()
+        this.state_ = Object.assign(this.state_, stateUpdates)
     }
 
     createEl(tagName?: string, attributes?: any) {
@@ -96,8 +97,6 @@ class Component {
     html(htmlStr: string) {
         this.el_.innerHTML = htmlStr
     }
-
-    // render() {}
 
     static registerComponent(name: string, Com: any) {
         Component.components_[name] = Com

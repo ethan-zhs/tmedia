@@ -12,7 +12,7 @@ import '../PlaybackRate'
 import '../Definition'
 
 class PCControls extends Component {
-    _isProgressSliding: false
+    isProgressSliding_: false
 
     controlsWrapper_: any
 
@@ -65,6 +65,11 @@ class PCControls extends Component {
             const clickEvent = document.createEvent('MouseEvents')
             clickEvent.initEvent('dblclick', true, true)
             this.player_.dispatchEvent(clickEvent)
+        })
+
+        // 播放结束显示播放器控件
+        this.on(this.player_, 'ended', () => {
+            this.removeClass('tmv-controls-hide', this.controlsWrapper_)
         })
     }
 

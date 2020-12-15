@@ -22,10 +22,9 @@ class NextVideo extends Component {
             toNextVideo && toNextVideo()
         })
 
-        // const svgBtn: any = SvgBtn.render(nextVideoBtn)
-        // if (!toNextVideo) {
-        //     svgBtn.classList.add('tmv-svg-btn-disable')
-        // }
+        if (!toNextVideo) {
+            this.addClass('tmv-svg-btn-disable')
+        }
     }
 }
 

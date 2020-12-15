@@ -22,9 +22,8 @@ class Tmvr extends React.Component<any, any> {
         this.video.setAttribute('webkit-playsinline', 'true')
 
         const tmv = new Tmv(this.props)
-        tmv.load()
         tmv.attachMedia(this.video)
-        tmv.play()
+        tmv.load()   
     }
 
     render() {

@@ -1,3 +1,4 @@
+import window from '../../global/window'
 import { loadScript, getDevice } from '../../utils'
 import Component from '../Component'
 
@@ -21,16 +22,16 @@ const FULLSCREEN_EVENT: any = {
 }
 
 class Fullscreen extends Component {
-    isFullscreen: boolean
+    isFullscreen_: boolean
 
     constructor(player: any, options: any = {}) {
         super(player, options)
 
-        this.isFullscreen = false
+        this.isFullscreen_ = false
         this.render()
     }
 
-    getFullscreenChangeEvent() {
+    getFullscreenChangeEvent = () => {
         let fullscreenEvent: any = null
         const dom: any = document
         const fullscreenChangeEvent: any = FULLSCREEN_EVENT.change
@@ -45,7 +46,7 @@ class Fullscreen extends Component {
         return fullscreenEvent
     }
 
-    fullscreenChangeHandler(event: any) {
+    fullscreenChangeHandler = (event: any) => {
         const videoElem: any = this.player_?.parentNode
         const svgPathElem = this.el().querySelector('.tmv-svg-fill')
         const elem = event.target
@@ -56,10 +57,10 @@ class Fullscreen extends Component {
             doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement
 
         // IE 要对比elem.activeElement
-        this.isFullscreen =
+        this.isFullscreen_ =
             fullscreenElement === elem || (elem.activeElement && fullscreenElement === elem.activeElement)
 
-        if (this.isFullscreen) {
+        if (this.isFullscreen_) {
             svgPathElem.setAttribute(
                 'd',
                 'M 10,16 16,16 16,10 14,10 14,14 10,14 z M 27,16 21,16 21,10 23,10 23,14 27,14 z M 10,20 16,20 16,26 14,26 14,22 10,22 z M 27,20 21,20 21,26 23,26 23,22 27,22 z'
@@ -74,14 +75,14 @@ class Fullscreen extends Component {
         }
     }
 
-    handleFullscreenChange() {
+    handleFullscreenChange = () => {
         const dom: any = document
         const fullscreenEvent = this.getFullscreenChangeEvent()
 
         fullscreenEvent && dom.addEventListener(fullscreenEvent, this.fullscreenChangeHandler.bind(this))
     }
 
-    requestFullscreen(dom: any) {
+    requestFullscreen = (dom: any) => {
         const { isPhone, isApp } = getDevice()
 
         if (this.getFullscreenChangeEvent()) {
@@ -96,15 +97,14 @@ class Fullscreen extends Component {
         } else if (isApp) {
             // 针对android 5.x版本以下的webview，不支持全屏事件，通过app提供的方法实现全屏
             loadScript('https://sitecdn.itouchtv.cn/sitecdn/sdk/touchtvapp/touchtvapp-ee92629b.min.js').then(() => {
-                const win: any = window
-                win.touchtvapp.playVideo(this.player_.src)
+                window.touchtvapp.playVideo(this.player_.src)
             })
         } else {
             console.error('[TMV]: Device not support fullscreen')
         }
     }
 
-    exitFullscreen() {
+    exitFullscreen = () => {
         const dom: any = document
         for (let i = 0; i < FULLSCREEN_EVENT.exit.length; i++) {
             if (dom[FULLSCREEN_EVENT.exit[i]]) {
@@ -116,10 +116,10 @@ class Fullscreen extends Component {
 
     handleFullscreen = () => {
         const videoElem: any = this.player_?.parentNode
-        this.isFullscreen ? this.exitFullscreen() : this.requestFullscreen(videoElem)
+        this.isFullscreen_ ? this.exitFullscreen() : this.requestFullscreen(videoElem)
     }
 
-    handleDoubleClickFullscreen() {
+    handleDoubleClickFullscreen = () => {
         this.on(this.player_, 'dblclick', (e: any) => {
             e.preventDefault()
             this.handleFullscreen()

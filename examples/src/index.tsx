@@ -11,7 +11,7 @@ export default class App extends React.Component<any, any> {
         const video = document.getElementById('tmv')
         const tmv = new Tmv({ 
             device: 'mobile',
-            // type: 'hls', 
+            type: 'flv', 
             toNextVideo: () => { alert('下一个视频回调函数') },
             definition: [
                 {
@@ -35,9 +35,8 @@ export default class App extends React.Component<any, any> {
             ]
             
         })
-        tmv.load()
         tmv.attachMedia(video)
-        tmv.play()
+        tmv.load()       
     }
 
     render() {
@@ -46,7 +45,7 @@ export default class App extends React.Component<any, any> {
                 <h1> JS Components </h1>
                 <div className="video-demo">
                     <h2>JS视频组件</h2>
-                    <video id="tmv" src="http://video2-cloud.itouchtv.cn/video/2020/06/04/0cd6b2d3e3899e771591262568549928__hd.mp4" controls></video>
+                    <video id="tmv" src="https://sitecdn.itouchtv.cn/sitecdn/assets/videos/demo.flv" controls></video>
                 </div>
                 <div className="audio-demo">
                     <h2>JS音频组件</h2>

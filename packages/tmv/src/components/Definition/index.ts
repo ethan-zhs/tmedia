@@ -21,7 +21,7 @@ class Definition extends Component {
         definition && definition.length && this.render()
     }
 
-    initPlaybackRateData() {
+    initPlaybackRateData = () => {
         const tmvDefinition: any = localStorage.getItem('tmv-definition') || {}
 
         const localDefinition = this.definition_.filter((item: any) => item.name === tmvDefinition)

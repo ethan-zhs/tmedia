@@ -1,3 +1,5 @@
+import window from '../global/window'
+
 export function loadScript(url: string) {
     return new Promise(resolve => {
         const script = document.createElement('script')
@@ -123,24 +125,22 @@ export function getDevice() {
 }
 
 export function videoInitialize({ type = 'mp4', autoPlay = false, video }: any, errorCallBack?: any) {
-    const win: any = window
-
     switch (type) {
         case 'hls':
             // 如果是PC则用hls.js播放m3u8
             const { isPC } = getDevice()
             isPC &&
                 loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/hls/hls.min.js').then(() => {
-                    if (win.Hls.isSupported()) {
-                        const hls = new win.Hls({
+                    if (window.Hls.isSupported()) {
+                        const hls = new window.Hls({
                             liveDurationInfinity: true
                         })
                         hls.loadSource(video.src)
                         hls.attachMedia(video)
-                        hls.on(win.Hls.Events.MANIFEST_PARSED, () => {
+                        hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
                             autoPlay && video.play()
                         })
-                        hls.on(win.Hls.Events.ERROR, function (event: any, data: any) {
+                        hls.on(window.Hls.Events.ERROR, function (event: any, data: any) {
                             errorCallBack && errorCallBack(data)
                         })
                     }
@@ -149,12 +149,12 @@ export function videoInitialize({ type = 'mp4', autoPlay = false, video }: any, 
             break
         case 'flv':
             loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/flv/flv.min.js').then(() => {
-                if (win.flvjs.isSupported()) {
-                    const flv = win.flvjs.createPlayer({
+                if (window.flvjs.isSupported()) {
+                    const flv = window.flvjs.createPlayer({
                         type: 'flv',
                         url: video.src
                     })
-                    flv.attachMediaElement(this.video)
+                    flv.attachMediaElement(video)
                     flv.load()
                     autoPlay && flv.play()
                     flv.on('error', (err: any) => {
@@ -167,15 +167,13 @@ export function videoInitialize({ type = 'mp4', autoPlay = false, video }: any, 
 
         default:
             video.load()
-            autoPlay &&
-                video.play().catch(() => {
-                    console.log('[TMV] Video cannot autoplay')
-                })
+            if (autoPlay) {
+                const play = video.play() || {}
+                if (play && play.catch) {
+                    play.catch(() => {
+                        console.log('[TMV] Video cannot autoplay')
+                    })
+                }
+            }
     }
-}
-
-export function createDomWithClass(className: string, domType?: string) {
-    const dom = document.createElement(domType || 'div')
-    dom.setAttribute('class', className)
-    return dom
 }

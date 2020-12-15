@@ -54,7 +54,7 @@ class PlaybackRate extends Component {
         return defaultRateValue
     }
 
-    changePlaybackRate(rate: string | number) {
+    changePlaybackRate = (rate: string | number) => {
         this.currRate_ = rate
         this.playbackrateBtn_.innerHTML = `${this.currRate_ == 1 ? '倍速' : this.currRate_ + 'x'}`
         this.player_.playbackRate = this.currRate_

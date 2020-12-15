@@ -4,7 +4,6 @@ import Component from '../Component'
 import './m'
 import './pc'
 import '../Loading'
-import '../Bezel'
 
 import './index.less'
 
@@ -18,6 +17,7 @@ class Controls extends Component {
 
         this.addClass('tmv-controls-container')
 
+        // 移动端不需要bezel组件
         if (options.device !== 'mobile') {
             this.bezel_ = new Bezel(player, options)
             this.appendContent(this.bezel_.el())
