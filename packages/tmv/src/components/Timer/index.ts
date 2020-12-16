@@ -13,28 +13,36 @@ class Timer extends Component {
     render() {
         this.addClass('tmv-controls-time')
         const currTime = this.createEl('span', { class: 'tmv-time-currtime' })
-        const separator = this.createEl('span', { class: 'tmv-time-separator' })
-        const duration = this.createEl('span', { class: 'tmv-time-duration' })
-        const liveBadge = this.createEl('span', { class: 'tmv-live-badge' })
+        const separator = this.createEl('span', { class: 'tmv-time-separator tmv-hide' })
+        const duration = this.createEl('span', { class: 'tmv-time-duration tmv-hide' })
+        const liveBadge = this.createEl('span', { class: 'tmv-live-badge tmv-hide' })
+
+        this.appendContent([currTime, separator, duration, liveBadge])
+        currTime.innerHTML = timeFormat(0)
 
         this.on(this.player_, 'timeupdate', () => {
-            currTime.innerHTML = timeFormat(this.player_.currentTime)
+            // 节流，防止频繁更新dom
+            const newTime = timeFormat(this.player_.currentTime)
+            if (newTime !== currTime.innerHTML) {
+                currTime.innerHTML = newTime
+            }
         })
 
         this.on(this.player_, 'durationchange', () => {
             const isLive = !this.player_.duration || this.player_.duration === Infinity
 
-            this.appendContent(currTime)
-            currTime.innerHTML = timeFormat(0)
+            separator.innerHTML = '/'
+            duration.innerHTML = timeFormat(isLive ? 0 : this.player_.duration)
+            liveBadge.innerHTML = '直播'
 
             if (isLive) {
-                this.appendContent(liveBadge)
+                this.addClass('tmv-hide', separator)
+                this.addClass('tmv-hide', duration)
+                this.removeClass('tmv-hide', liveBadge)
             } else {
-                separator.innerHTML = '/'
-                this.appendContent(separator)
-
-                duration.innerHTML = timeFormat(isLive ? 0 : this.player_.duration)
-                this.appendContent(duration)
+                this.removeClass('tmv-hide', separator)
+                this.removeClass('tmv-hide', duration)
+                this.addClass('tmv-hide', liveBadge)
             }
         })
     }

@@ -24,7 +24,7 @@ class Player extends Component {
         const controls = new Controls(this.player_, this.options_)
 
         this.appendContent(controls.el())
-        this.on(this.player_, 'error', this.mediaError)
+        // this.on(this.player_, 'error', this.mediaError)
     }
 
     load() {
@@ -34,7 +34,7 @@ class Player extends Component {
 
         videoInitialize({ type, autoPlay, video: this.player_ }, (err: any) => {
             console.log(err)
-            this.mediaError()
+            this.mediaError(err)
         })
     }
 
@@ -42,7 +42,8 @@ class Player extends Component {
         this.player_ && this.player_.play()
     }
 
-    mediaError = () => {
+    mediaError = (err: any) => {
+        console.log(err)
         const error = new Error(this.player_, this.options_)
         error.render('NETWORK_ERROR')
 

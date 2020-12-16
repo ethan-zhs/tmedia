@@ -68,7 +68,11 @@ class Component {
         if (!el) {
             el = this.el_
         }
-        el.appendChild(content)
+
+        content = Array.isArray(content) ? content : [content]
+        content.map((elem: any) => {
+            el.appendChild(elem)
+        })
     }
 
     player() {
