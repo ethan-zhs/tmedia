@@ -106,7 +106,7 @@ _(Undefined)_
 tmv.attachMedia(video)
 ```
 
-### load()
+### `load()`
 加载播放视频源，`Hls Mp4 Flv`分别用不同的加载方式
 
 **Arguments**
