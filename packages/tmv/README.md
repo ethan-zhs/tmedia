@@ -88,3 +88,74 @@ import '@tmedia/tmv/dist/tmvv.css'
 | definition | array | null | 画质选择列表, 数据结构[{name: 'hd', cName: '高清', url: ''},{name: 'sd', cName: '标清', url: ''}] | 是 |
 | playbackRateList | array | null | 播放速率列表, 数据结构[{value: '1', default: true},{value: '1.5'}] | 是 |
 | toNextVideo | function | null | 点击下一条或播放结束回调函数 | 是 |
+
+
+## Properties
+
+### `attachMedia()`
+注入video Element, 初始化Tmv UI及相关组件
+
+**Arguments**
+1. video(HTMLVideoElement): 视频元素
+
+**Returns**
+_(Undefined)_
+
+**Example**
+```javascript
+tmv.attachMedia(video)
+```
+
+### load()
+加载播放视频源，`Hls Mp4 Flv`分别用不同的加载方式
+
+**Arguments**
+
+**Returns**
+_(Undefined)_
+
+**Example**
+```javascript
+tmv.load()
+```
+
+### `play()`
+主动播放视频
+
+**Arguments**
+
+**Returns**
+_(Undefined)_
+
+**Example**
+```javascript
+tmv.play()
+```
+
+### `on()`
+监听视频播放事件
+
+**Arguments**
+1. EvenType(string): 事件类型
+2. callback(func): 事件回调函数
+
+**Returns**
+_(Undefined)_
+
+**Example**
+```javascript
+tmv.on('play', () => {})
+```
+
+### `video()`
+获得Tmv video element
+
+**Arguments**
+
+**Returns**
+_(HTMLVideoElement)_
+
+**Example**
+```javascript
+tmv.video()
+```

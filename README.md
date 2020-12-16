@@ -38,20 +38,26 @@ npm run publish
 - packages
     - tma                   // 音频组件
         - dist
+            - tma.js        // 打包出来的tma音频组件
             - tmav.js       // 打包出来的Vue音频组件
             - tmar.js       // 打包出来的React音频组件
         - src
             - components    // 原子组件
-            - assets        // 资源文件
+            - global
+            - utils      
             - ReactApp.tsx  // React入口文件
             - VueApp.vue    // Vue入口文件
+            - index.ts      // tma入口文件
     - tmv                   // 视频组件
         - dist
-            - tmvv.js        // 打包出来的Vue视频组件
-            - tmvr.js        // 打包出来的React视频组件        
+            - tmv.js        // 打包出来的tmv视频组件
+            - tmvv.js       // 打包出来的Vue视频组件
+            - tmvr.js       // 打包出来的React视频组件        
         - src
             - components    // 原子组件
-            - assets        // 资源文件
+            - global
+            - utils        
             - ReactApp.tsx  // React入口文件
             - VueApp.vue    // Vue入口文件
+            - index.ts      // tmv入口文件
 ```

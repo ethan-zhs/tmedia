@@ -25,6 +25,7 @@ class Timer extends Component {
             const isLive = !this.player_.duration || this.player_.duration === Infinity
 
             this.appendContent(currTime)
+            currTime.innerHTML = timeFormat(0)
 
             if (isLive) {
                 this.appendContent(liveBadge)

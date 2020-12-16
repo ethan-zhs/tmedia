@@ -7,8 +7,6 @@ import '../Progress'
 import '../BigPlayBtn'
 
 class MobileControls extends Component {
-    isProgressSliding_: false
-
     controlsWrapper_: any
 
     isVisible_: boolean
@@ -28,8 +26,8 @@ class MobileControls extends Component {
         this.isVisible_ = visible
     }
 
-    handleMarkClick = () => {
-        this.toggleControls(!this.isVisible_)
+    handleMarkClick = (visible?: boolean) => {
+        this.toggleControls(visible || !this.isVisible_)
         this.clearTimer()
 
         if (this.isVisible_) {
@@ -51,12 +49,12 @@ class MobileControls extends Component {
         this.initChildren(['BigPlayBtn'], this.controlsWrapper_)
         this.initChildren(['NextVideo', 'Timer', 'Progress', 'Fullscreen'], controlsBar)
 
-        this.on(this.player_, 'play', this.handleMarkClick)
+        this.on(this.player_, 'play', () => this.handleMarkClick(true))
 
         // 播放结束显示播放器控件
         this.on(this.player_, 'ended', () => this.toggleControls(true))
 
-        this.on(this.el(), 'click', this.handleMarkClick)
+        this.on(this.el(), 'click', () => this.handleMarkClick())
         this.on(controlsBar, 'click', (e: any) => e.stopPropagation())
     }
 }
