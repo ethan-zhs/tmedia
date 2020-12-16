@@ -27,8 +27,12 @@ class Tmv {
         this.player_.play()
     }
 
-    on = (eventName: string, cb: any) => {
+    on(eventName: string, cb: any) {
         this.video_.addEventListener(eventName, cb)
+    }
+
+    video() {
+        return this.video_
     }
 }
 
