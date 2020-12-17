@@ -34,6 +34,10 @@ class Progress extends Component {
 
         this.player_.addEventListener('durationchange', () => {
             this.isLive_ = !this.player_.duration || this.player_.duration === Infinity
+
+            if (this.isLive_) {
+                this.html('<div class="tmv-progress-base"></div>')
+            }
         })
     }
 
@@ -58,6 +62,11 @@ class Progress extends Component {
     }
 
     slideMoveOrClick = (e: any) => {
+        // 直播不触发进度条点击事件
+        if (this.isLive_) {
+            return
+        }
+
         e.stopPropagation()
         const pageX = e.pageX || e.targetTouches[0].pageX
 
