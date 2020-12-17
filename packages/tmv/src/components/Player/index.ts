@@ -14,6 +14,7 @@ class Player extends Component {
         this.addClass('tmv-video-wrapper')
 
         this.player_.controls = false
+        this.player_.autoPlay = this.options_.autoPlay === true
         this.player_.src = this.options_.src || this.player_.src
         this.addClass('tmv-video', this.player_)
 
@@ -33,7 +34,6 @@ class Player extends Component {
         this.player_ && this.player_.load()
 
         videoInitialize({ type, autoPlay, video: this.player_ }, (err: any) => {
-            console.log(err)
             this.mediaError(err)
         })
     }
@@ -43,6 +43,7 @@ class Player extends Component {
     }
 
     mediaError = (err: any) => {
+        // 视频播放出错触发 显示Error
         console.log(err)
         const error = new Error(this.player_, this.options_)
         error.render('NETWORK_ERROR')
