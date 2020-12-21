@@ -10,6 +10,11 @@ class Bezel extends Component {
         this.render()
     }
 
+    /**
+     * 触发bezel显示
+     *
+     * @param {String} type 图标类型
+     */
     bezelChange = (type: string) => {
         switch (type) {
             case 'play':
@@ -25,9 +30,12 @@ class Bezel extends Component {
                     </svg>`
                 break
         }
+
+        // 点击触发播放或暂停的动画效果
         this.removeClass('tmv-bezel-show')
-        setTimeout(() => {
+        this.setTimer(() => {
             this.addClass('tmv-bezel-show')
+            this.clearTimer()
         }, 10)
     }
 

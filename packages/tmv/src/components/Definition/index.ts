@@ -1,4 +1,4 @@
-import { videoInitialize } from '../../utils'
+import { videoInitialize } from '../../utils/tools'
 import Component from '../Component'
 import Popover from '../Popover'
 import './index.less'
@@ -21,7 +21,11 @@ class Definition extends Component {
         definition && definition.length && this.render()
     }
 
-    initPlaybackRateData = () => {
+    /**
+     * 初始化画质数据
+     *
+     */
+    initDefinitionData = () => {
         const tmvDefinition: any = localStorage.getItem('tmv-definition') || {}
 
         const localDefinition = this.definition_.filter((item: any) => item.name === tmvDefinition)
@@ -41,6 +45,12 @@ class Definition extends Component {
         this.changeDefinition(initDefinition, false)
     }
 
+    /**
+     * 修改画质
+     *
+     * @param {Object} item 画质对象
+     * @param {boolean} _autoPlay 自动播放
+     */
     changeDefinition = (item: any, _autoPlay?: boolean) => {
         const { autoPlay = false } = this.options_
 
@@ -68,12 +78,20 @@ class Definition extends Component {
         localStorage.setItem('tmv-definition', item.name)
     }
 
-    // 修改播放源后还原当前播放时间
+    /**
+     * 修改播放源后还原当前播放时间
+     *
+     */
     changeVideoTime = () => {
         this.player_.currentTime = this.videoCurrTime_
         this.player_.removeEventListener('loadeddata', this.changeVideoTime, false)
     }
 
+    /**
+     * 画质修改处理程序
+     *
+     * @param {Object} item 画质对象
+     */
     handleChangeDefinition = (item: any) => {
         const { type } = this.options_
         this.changeDefinition(item, true)
@@ -88,6 +106,9 @@ class Definition extends Component {
         this.popover_.popoverHide()
     }
 
+    /**
+     * 渲染画质选择面板
+     */
     definitionList = () => {
         const definitionListElem = this.createEl('div', { class: 'tmv-definition-list' })
         this.definitionList_ = this.definition_.map((item: any) => {
@@ -110,7 +131,7 @@ class Definition extends Component {
         this.definition_ = this.options_.definition || []
 
         this.appendContent(this.popover_.render(this.definitionBtn_, this.definitionList()))
-        this.initPlaybackRateData()
+        this.initDefinitionData()
     }
 }
 

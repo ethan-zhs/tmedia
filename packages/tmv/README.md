@@ -147,7 +147,7 @@ _(Undefined)_
 tmv.on('play', () => {})
 ```
 
-### `video()`
+### `media()`
 获得Tmv video element
 
 **Arguments**
@@ -157,5 +157,18 @@ _(HTMLVideoElement)_
 
 **Example**
 ```javascript
-tmv.video()
+tmv.media()
+```
+
+### `destroy()`
+销毁正在播放的视频源，live停止拉流
+
+**Arguments**
+
+**Returns**
+_(Undefined))_
+
+**Example**
+```javascript
+tmv.destroy()
 ```

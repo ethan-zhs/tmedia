@@ -15,6 +15,9 @@ class Setting extends Component {
         this.render()
     }
 
+    /**
+     * 自动连播组件
+     */
     nextVideoAutoPlay = () => {
         const autoPlaySitch = this.createEl('div', { class: 'tmv-switch' })
         autoPlaySitch.innerHTML = '<div class="tmv-switch-point"></div>'

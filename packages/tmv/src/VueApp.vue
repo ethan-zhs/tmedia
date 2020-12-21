@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { randomHash } from './utils'
+import { randomHash } from './utils/tools'
 import Tmv from './index'
 
 export default {
@@ -50,14 +50,31 @@ export default {
     data: () => {
         return {
             videoId: `video_${randomHash(6)}`,
-            video: null
+            video: null,
+            tmv: null
+        }
+    },
+    watch: {
+        // url更新后重load视频
+        url: function (val) {
+            const video = document.getElementById(this.videoId)
+
+            // 销毁播放流Hls/Flv
+            this.tmv.destroy()
+
+            // 重新加载新地址
+            video.src = val
+            this.tmv.load()
         }
     },
     mounted() {
         this.video = document.getElementById(this.videoId)
-        const tmv = new Tmv(this.$props)
-        tmv.attachMedia(this.video)
-        tmv.load()
+        this.tmv = new Tmv(this.$props)
+        this.tmv.attachMedia(this.video)
+        this.tmv.load()
+    },
+    destroyed() {
+        this.tmv.destroy()
     }
 }
 </script>

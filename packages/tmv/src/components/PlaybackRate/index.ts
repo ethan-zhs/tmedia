@@ -35,6 +35,9 @@ class PlaybackRate extends Component {
         this.render()
     }
 
+    /**
+     * 初始化播放速率数据
+     */
     initPlaybackRateData = () => {
         this.playbackRateList_ = this.options_.playbackRateList || DEFAULT_LIST
 
@@ -55,6 +58,11 @@ class PlaybackRate extends Component {
         return defaultRateValue
     }
 
+    /**
+     * 改变播放速率
+     *
+     * @param {String | Number} rate 播放速率
+     */
     changePlaybackRate = (rate: string | number) => {
         this.currRate_ = rate
         this.playbackrateBtn_.innerHTML = `${this.currRate_ == 1 ? '倍速' : this.currRate_ + 'x'}`
@@ -69,6 +77,11 @@ class PlaybackRate extends Component {
         })
     }
 
+    /**
+     * 播放速率改变处理程序
+     *
+     * @param {String | Number} rate 播放速率
+     */
     handleChangeRate = (rate: string | number) => {
         this.changePlaybackRate(rate)
         this.popover_.popoverHide()
@@ -76,6 +89,11 @@ class PlaybackRate extends Component {
         localStorage.setItem('tmv-playbackrate', rate.toString())
     }
 
+    /**
+     * 渲染播放速率选择面板
+     *
+     * @param {String | Number} rate 播放速率
+     */
     playbackRateList = (rate: string | number) => {
         const playbackRateListElem = this.createEl('div', { class: 'tmv-playbackrate-list' })
         this.playbackRateElemList_ = this.playbackRateList_.map((item: any) => {

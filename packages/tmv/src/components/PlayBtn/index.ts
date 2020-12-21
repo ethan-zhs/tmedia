@@ -30,6 +30,7 @@ class PlayBtn extends Component {
             playBtnSvgPath?.setAttribute('d', pausePath)
         })
 
+        // 派发视频点击事件
         this.on(this.el(), 'click', () => {
             const clickEvent = document.createEvent('MouseEvents')
             clickEvent.initEvent('click', true, true)

@@ -28,20 +28,24 @@ class Controls extends Component {
         this.render()
     }
 
+    /**
+     * 点击视频后触发
+     *
+     * @desc 所有需要控制播放/暂停的事件都派发点击video element事件
+     */
     handleVideoClick = (e: any) => {
         e && e.stopPropagation()
         const paused = this.player_.paused
-        paused ? this.player_.play() : this.player_.pause()
+        if (paused) {
+            this.player_.play()
+        } else {
+            this.player_.pause()
+        }
 
         // 移动端不需要bezel组件
         if (this.options_.device !== 'mobile') {
             this.bezel_.bezelChange(paused ? 'play' : 'pause')
         }
-    }
-
-    togglePlay = () => {
-        const paused = this.player_.paused
-        paused ? this.player_.play() : this.player_.pause()
     }
 
     render() {

@@ -1,4 +1,4 @@
-import { timeFormat } from '../../utils'
+import { timeFormat } from '../../utils/tools'
 import Component from '../Component'
 
 import './index.less'
@@ -18,6 +18,10 @@ class Progress extends Component {
         this.render()
     }
 
+    /**
+     * 监听video timeupdate / durationchange事件
+     * 改变进度条状态
+     */
     handleProgressChange = () => {
         this.player_.addEventListener('timeupdate', () => {
             if (!this.isLive_) {
@@ -33,7 +37,7 @@ class Progress extends Component {
         })
 
         this.player_.addEventListener('durationchange', () => {
-            this.isLive_ = !this.player_.duration || this.player_.duration === Infinity
+            this.isLive_ = this.player_.isLive || !this.player_.duration || this.player_.duration === Infinity
 
             if (this.isLive_) {
                 this.html('<div class="tmv-progress-base"></div>')
@@ -41,6 +45,10 @@ class Progress extends Component {
         })
     }
 
+    /**
+     * 鼠标相对进度条悬停移动
+     *
+     */
     progressMove = (e: any) => {
         const pos: any = this.getProgressPos(e.pageX)
 
@@ -49,6 +57,10 @@ class Progress extends Component {
         this.progressTimeElem_.innerHTML = timeFormat(pos.percent * this.player_.duration)
     }
 
+    /**
+     * 拖动开始
+     *
+     */
     slideStart = () => {
         // 为了更好的体验，在移动触点的时候我选择将视频暂停
         this.historyPauseStatus_ = this.player_.paused
@@ -61,6 +73,10 @@ class Progress extends Component {
         document.addEventListener('touchend', this.slideEnd, false)
     }
 
+    /**
+     * 点击或拖动触发进度条改变
+     *
+     */
     slideMoveOrClick = (e: any) => {
         // 直播不触发进度条点击事件
         if (this.isLive_) {
@@ -79,6 +95,10 @@ class Progress extends Component {
         this.progressPointElem_.style.transform = `translate(${this.progressBarElem_.clientWidth}px ,-50%)`
     }
 
+    /**
+     * 拖动结束
+     *
+     */
     slideEnd = () => {
         this.setState({ isProgressSliding: false })
         document.removeEventListener('mousemove', this.slideMoveOrClick, false)
@@ -90,6 +110,11 @@ class Progress extends Component {
         !this.historyPauseStatus_ && this.player_.play()
     }
 
+    /**
+     * 获得播放进度条位置相关信息
+     *
+     * @param {Number} pageX 鼠标位置
+     */
     getProgressPos = (pageX: number) => {
         try {
             const maxWidth = this.el().clientWidth
@@ -112,8 +137,8 @@ class Progress extends Component {
             const percent = mx / maxWidth
 
             return {
-                percent,
-                hoveredTimePos
+                percent, // 播放进度百分比
+                hoveredTimePos // 鼠标悬停相对进度条位置
             }
         } catch (err) {}
     }

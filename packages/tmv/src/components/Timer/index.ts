@@ -1,4 +1,4 @@
-import { timeFormat } from '../../utils'
+import { timeFormat } from '../../utils/tools'
 import Component from '../Component'
 
 import './index.less'
@@ -29,7 +29,7 @@ class Timer extends Component {
         })
 
         this.on(this.player_, 'durationchange', () => {
-            const isLive = !this.player_.duration || this.player_.duration === Infinity
+            const isLive = this.player_.isLive || !this.player_.duration || this.player_.duration === Infinity
 
             separator.innerHTML = '/'
             duration.innerHTML = timeFormat(isLive ? 0 : this.player_.duration)

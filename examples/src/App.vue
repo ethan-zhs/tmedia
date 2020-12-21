@@ -5,15 +5,16 @@
             <h2>Vue视频组件</h2>
             <Tmvv
                 poster="https://img2-cloud.itouchtv.cn/news/877c305a8fce17015150622dad25be06.png"
-                url="http://video2-cloud.itouchtv.cn/video/2020/03/10/45dca3e86339ab421583827925794923__hd.mp4"
-                type="mp4"
+                :url="url"
+                type="flv"
                 platform="pc"
-                :autoPlay="false"
+                :autoPlay="true"
                 :toNextVideo="toNextVideo"
+                :controls="false"
             />
         </div>
         <div class="audio-demo">
-            <h2>Vue音频组件</h2>
+            <h2 @click="changeSrc">Vue音频组件</h2>
             <Tmav />
         </div>
     </div>
@@ -29,9 +30,19 @@ export default {
         Tmvv,
         Tmav
     },
+    data() {
+        return {
+            url: 'https://pili-live-hdl.itouchtv.cn/touchtv-1/5fdc7bb6a3d5ec4f6176ce68.flv'
+        }
+    },
     methods: {
         toNextVideo() {
             alert('下一个视频的回调')
+        },
+
+        changeSrc() {
+            console.log(1111111)
+            this.url = 'https://pili-live-hdl.itouchtv.cn/touchtv-1/5fdc7938a95be77ce776b374.flv'
         }
     }
 }

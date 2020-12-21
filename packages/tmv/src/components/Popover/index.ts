@@ -9,14 +9,23 @@ class Popover extends Component {
         super(player, options)
     }
 
+    /**
+     * 获得popover显示状态
+     */
     getPopoverVisibility = () => {
         return this.popoverMark_.getAttribute('class').indexOf('tmv-popover-hide') < 0
     }
 
+    /**
+     * 隐藏popover
+     */
     popoverHide = () => {
         this.popoverMark_.classList.add('tmv-popover-hide')
     }
 
+    /**
+     * 显示popover
+     */
     popoverShow = () => {
         this.popoverMark_.classList.remove('tmv-popover-hide')
     }

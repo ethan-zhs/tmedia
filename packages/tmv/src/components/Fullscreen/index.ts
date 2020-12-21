@@ -1,5 +1,5 @@
 import window from '../../global/window'
-import { loadScript, getDevice } from '../../utils'
+import { loadScript, getDevice } from '../../utils/tools'
 import Component from '../Component'
 
 import './index.less'
@@ -31,6 +31,10 @@ class Fullscreen extends Component {
         this.render()
     }
 
+    /**
+     * 获取系统支持的fullscreenChange事件
+     *
+     */
     getFullscreenChangeEvent = () => {
         let fullscreenEvent: any = null
         const dom: any = document
@@ -46,6 +50,11 @@ class Fullscreen extends Component {
         return fullscreenEvent
     }
 
+    /**
+     * fullscreenChange事件处理方法
+     *
+     * @param {Object} event 事件目标对象
+     */
     fullscreenChangeHandler = (event: any) => {
         const videoElem: any = this.player_?.parentNode
         const svgPathElem = this.el().querySelector('.tmv-svg-fill')
@@ -75,6 +84,10 @@ class Fullscreen extends Component {
         }
     }
 
+    /**
+     * 监听fullscreenChange事件
+     *
+     */
     handleFullscreenChange = () => {
         const dom: any = document
         const fullscreenEvent = this.getFullscreenChangeEvent()
@@ -82,6 +95,11 @@ class Fullscreen extends Component {
         fullscreenEvent && dom.addEventListener(fullscreenEvent, this.fullscreenChangeHandler.bind(this))
     }
 
+    /**
+     * 进入全屏
+     *
+     * @param {HTMLElement} dom 执行全屏事件的element
+     */
     requestFullscreen = (dom: any) => {
         const { isPhone, isApp } = getDevice()
 
@@ -104,6 +122,10 @@ class Fullscreen extends Component {
         }
     }
 
+    /**
+     * 退出全屏
+     *
+     */
     exitFullscreen = () => {
         const dom: any = document
         for (let i = 0; i < FULLSCREEN_EVENT.exit.length; i++) {
@@ -114,11 +136,19 @@ class Fullscreen extends Component {
         }
     }
 
+    /**
+     * toggle fullscreen
+     *
+     */
     handleFullscreen = () => {
         const videoElem: any = this.player_?.parentNode
         this.isFullscreen_ ? this.exitFullscreen() : this.requestFullscreen(videoElem)
     }
 
+    /**
+     * 监听视频双击事件, 触发进入/退出全屏
+     *
+     */
     handleDoubleClickFullscreen = () => {
         this.on(this.player_, 'dblclick', (e: any) => {
             e.preventDefault()

@@ -9,10 +9,16 @@ class BigPlayBtn extends Component {
         this.render()
     }
 
+    /**
+     * 开始loading
+     */
     startLoading = () => {
         this.addClass('tmv-big-play-btn-hide')
     }
 
+    /**
+     * 停止loading
+     */
     cancelLoading = () => {
         this.removeClass('tmv-big-play-btn-hide')
     }

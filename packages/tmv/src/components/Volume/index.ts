@@ -16,6 +16,9 @@ class Volume extends Component {
         this.render()
     }
 
+    /**
+     * 初始化音量信息
+     */
     initVolumeData = () => {
         const tmvVolume: any = localStorage.getItem('tmv-volume') || 1
         const tmvMuted: any = localStorage.getItem('tmv-muted') || '0'
@@ -26,6 +29,11 @@ class Volume extends Component {
         this.volumeChange(isMuted)
     }
 
+    /**
+     * 改变音频
+     *
+     * @param {Boolean} isMuted 是否静音
+     */
     volumeChange = (isMuted: boolean) => {
         const svgBtn = this.el().querySelector('.tmv-svg-fill')
         svgBtn.setAttribute(
@@ -41,6 +49,10 @@ class Volume extends Component {
         this.player_.muted = isMuted
     }
 
+    /**
+     * 显示音量调节面板
+     *
+     */
     showSlider = () => {
         const isMuted = this.player_.muted
 
@@ -53,11 +65,19 @@ class Volume extends Component {
         this.volumeChange(mute)
     }
 
+    /**
+     * 开始拖动调节音量
+     *
+     */
     slideStart = () => {
         document.addEventListener('mousemove', this.slideMoveOrClick, false)
         document.addEventListener('mouseup', this.slideEnd, false)
     }
 
+    /**
+     * 拖动/点击调节音量
+     *
+     */
     slideMoveOrClick = (e: any) => {
         try {
             const maxHeight = this.volumeSliderBase_.clientHeight
@@ -74,11 +94,19 @@ class Volume extends Component {
         } catch (err) {}
     }
 
+    /**
+     * 拖动结束
+     *
+     */
     slideEnd = () => {
         document.removeEventListener('mousemove', this.slideMoveOrClick, false)
         document.removeEventListener('mouseup', this.slideEnd, false)
     }
 
+    /**
+     * 渲染音量调节面板
+     *
+     */
     volumeSlider = () => {
         const volumeSlider = this.createEl('div', { class: 'tmv-volume-slider' })
         this.volumeSliderBase_ = this.createEl('div', { class: 'tmv-volume-slider-base' })

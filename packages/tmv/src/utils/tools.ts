@@ -1,5 +1,10 @@
 import window from '../global/window'
 
+/**
+ * 异步加载script
+ *
+ * @param {String} url script url
+ */
 export function loadScript(url: string) {
     return new Promise(resolve => {
         const script = document.createElement('script')
@@ -14,6 +19,11 @@ export function loadScript(url: string) {
     })
 }
 
+/**
+ * 生产随机字符串
+ *
+ * @param {Number} size 随机字符串长度
+ */
 export function randomHash(size: number) {
     const seed = [
         'A',
@@ -90,6 +100,11 @@ export function randomHash(size: number) {
     return hashStr
 }
 
+/**
+ * 格式化播放时间(HH:mm:ss)
+ *
+ * @param {Number} second 秒
+ */
 export function timeFormat(second: number) {
     second = Math.round(second)
     const h = Math.floor(second / 3600)
@@ -103,6 +118,10 @@ export function timeFormat(second: number) {
     return timeStr
 }
 
+/**
+ * 获得终端设备类型
+ *
+ */
 export function getDevice() {
     const ua = navigator.userAgent
     const isWindowsPhone = /(?:Windows Phone)/.test(ua)
@@ -124,45 +143,80 @@ export function getDevice() {
     }
 }
 
-export function videoInitialize({ type = 'mp4', autoPlay = false, video }: any, errorCallBack?: any) {
+/**
+ * 初始化视频
+ *
+ * @param {Object} options 视频配置
+ * @param {Func} errorCallBack 错误回调函数
+ *
+ * @desc 根据不同的类型选择不同的视频源解析器初始化播放视频
+ */
+export async function videoInitialize({ type = 'mp4', autoPlay = false, video }: any, errorCallBack?: any) {
     switch (type) {
         case 'hls':
             // 如果是PC则用hls.js播放m3u8
             const { isPC } = getDevice()
-            isPC &&
-                loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/hls/hls.min.js').then(() => {
-                    if (window.Hls.isSupported()) {
-                        const hls = new window.Hls({
-                            liveDurationInfinity: true
-                        })
-                        hls.loadSource(video.src)
-                        hls.attachMedia(video)
-                        hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-                            autoPlay && video.play()
-                        })
-                        hls.on(window.Hls.Events.ERROR, function (event: any, data: any) {
-                            errorCallBack && errorCallBack(data)
-                        })
-                    }
-                })
+            if (isPC) {
+                await loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/hls/hls.min.js')
+                if (window.Hls.isSupported()) {
+                    const hls = new window.Hls({})
+                    hls.loadSource(video.src)
+                    hls.attachMedia(video)
+                    hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
+                        autoPlay && video.play()
+                    })
+                    hls.on(window.Hls.Events.ERROR, (event: any, data: any) => {
+                        switch (data.type) {
+                            case 'networkError':
+                                errorCallBack && errorCallBack(data)
+                                break
+                            default:
+                                console.log(data)
+                                break
+                        }
+                    })
+
+                    hls.on(window.Hls.Events.LEVEL_LOADED, (event: any, data: any) => {
+                        const isLive = data.details.live
+                        video.isLive = isLive
+                    })
+
+                    video.addEventListener('play', () => {
+                        const duration = video.duration
+
+                        if (duration && duration - 18 > 0) {
+                            const timer = setTimeout(() => {
+                                video.currentTime = duration - 18
+                                clearTimeout(timer)
+                            }, 3000)
+                        }
+                    })
+
+                    return hls
+                }
+            }
 
             break
         case 'flv':
-            loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/flv/flv.min.js').then(() => {
-                if (window.flvjs.isSupported()) {
-                    const flv = window.flvjs.createPlayer({
-                        type: 'flv',
-                        url: video.src
-                    })
-                    flv.attachMediaElement(video)
-                    flv.load()
-                    autoPlay && flv.play()
-                    flv.on('error', (err: any) => {
-                        console.log(err)
-                        errorCallBack && errorCallBack(err)
-                    })
-                }
-            })
+            await loadScript('https://sitecdn.itouchtv.cn/sitecdn/cdn-lib/flv/flv.min.js')
+
+            if (window.flvjs.isSupported()) {
+                const flv = window.flvjs.createPlayer({
+                    type: 'flv',
+                    url: video.src
+                })
+                flv.attachMediaElement(video)
+                flv.load()
+                autoPlay && flv.play()
+                flv.on('error', (err: any) => {
+                    switch (err) {
+                        case 'NetworkError':
+                            errorCallBack && errorCallBack(err)
+                    }
+                })
+
+                return flv
+            }
             break
 
         default:

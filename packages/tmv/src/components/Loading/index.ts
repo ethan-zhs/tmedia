@@ -11,12 +11,18 @@ class Loading extends Component {
         this.render()
     }
 
+    /**
+     * 开始loading
+     */
     startLoading = () => {
         // 正在拖动进度条时不显示loading
         !this.state_.isProgressSliding && this.removeClass('tmv-loading-hide')
         this.setState({ isLoading: true })
     }
 
+    /**
+     * 停止loading
+     */
     cancelLoading = () => {
         this.addClass('tmv-loading-hide')
         this.setState({ isLoading: false })
