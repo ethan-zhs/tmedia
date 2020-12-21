@@ -14,7 +14,7 @@
             />
         </div>
         <div class="audio-demo">
-            <h2 @click="changeSrc">Vue音频组件</h2>
+            <h2>Vue音频组件</h2>
             <Tmav />
         </div>
     </div>
@@ -38,11 +38,6 @@ export default {
     methods: {
         toNextVideo() {
             alert('下一个视频的回调')
-        },
-
-        changeSrc() {
-            console.log(1111111)
-            this.url = 'https://pili-live-hdl.itouchtv.cn/touchtv-1/5fdc7938a95be77ce776b374.flv'
         }
     }
 }

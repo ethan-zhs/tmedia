@@ -40,13 +40,6 @@ export default class App extends React.Component<any, any> {
         this.tmv.attachMedia(video)
         this.tmv.load()  
     }
-    a = () => {
-        const video: any = document.getElementById('tmv')
-        video.src="https://nclive.grtn.cn/typd/sd/live.m3u8?_upt=fd3622bc1608523800&auth_key=1608518744-0-0-88a0102375a4aa0c768d901efbed33da"
-        console.log(111)
-        // this.tmv.destory()
-        this.tmv.load() 
-    }
 
     render() {
         return (
@@ -54,10 +47,10 @@ export default class App extends React.Component<any, any> {
                 <h1> JS Components </h1>
                 <div className="video-demo">
                     <h2>JS视频组件</h2>
-                    <video id="tmv" src="https://tcdn.itouchtv.cn/live/gdws.m3u8?t_token=637b1d4b9d90bc2dac1685e8db36045e-Iz03D6ceOZZCIuqGbB5cy3z1YyrQ2XuISm8S0qnkyN0w8b3EivMjc%2BsLnCWumQXt3nyYLn0nPu3UPvTan%2FMhCA9uViH6x8mnADfF2xVw4ovLz8z4TRv6WDoI%2FaFMeF8x7CzzqCq506I1QYBlSIWH1ukeqz%2FjQFPeqZ6CB%2BkB9LzxOg%2FmISOnfUJJnIDmFEf%2F"></video>
+                    <video id="tmv" src="https://tcdn.itouchtv.cn/live/gdws.m3u8?t_token=f04c0e8129482f6a517866f0bcbec3f0-O7sJrLNiZfo7mGehqr7KLG3o8bIQbfI0TpODNU27YEWDvuoQt9%2BTYnDOx%2FIxlMmt8%2Fw952Uf50NZ%2BX%2BcY9cuycRmIhfr1vfc3kq92ILVZyqIEt7uxh7OFbVQZsPFOx%2BbQTFgIM6O5oyAFY%2FewE15uoyKyH55MJBXrnA%2B8G0f0ux%2FzwWZcl3ZZKFSbPUVNf32"></video>
                 </div>
                 <div className="audio-demo">
-                    <h2 onClick={this.a}>JS音频组件</h2>
+                    <h2>JS音频组件</h2>
                 </div>
             </React.Fragment>
         )

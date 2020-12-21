@@ -166,7 +166,7 @@ tmv.media()
 **Arguments**
 
 **Returns**
-_(Undefined))_
+_(Undefined)_
 
 **Example**
 ```javascript

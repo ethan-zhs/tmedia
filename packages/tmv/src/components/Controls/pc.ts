@@ -40,40 +40,44 @@ class PCControls extends Component {
     }
 
     initControlMarkEvents = () => {
+        this.on(this.el(), 'mousemove', this.showControls)
+
+        this.on(this.el(), 'mouseleave', this.hideControls)
+
+        // 播放结束显示播放器控件
+        this.on(this.player_, 'ended', this.showControls)
+
+        // 单击派发视频点击事件
         this.on(this.el(), 'click', () => {
             const clickEvent = document.createEvent('MouseEvents')
             clickEvent.initEvent('click', true, true)
             this.player_.dispatchEvent(clickEvent)
         })
 
-        this.on(this.el(), 'mousemove', () => {
-            this.removeClass('tmv-controls-hide', this.controlsWrapper_)
-            this.clearTimer()
-
-            this.setTimer(() => {
-                !this.player_.paused && this.addClass('tmv-controls-hide', this.controlsWrapper_)
-                this.clearTimer()
-            }, 3000)
-        })
-
-        this.on(this.el(), 'mouseleave', () => {
-            !this.player_.paused && this.addClass('tmv-controls-hide', this.controlsWrapper_)
-            this.clearTimer()
-        })
-
+        // 双击派发视频双击事件
         this.on(this.el(), 'dblclick', () => {
             const clickEvent = document.createEvent('MouseEvents')
             clickEvent.initEvent('dblclick', true, true)
             this.player_.dispatchEvent(clickEvent)
         })
+    }
 
-        // 播放结束显示播放器控件
-        this.on(this.player_, 'ended', () => {
-            this.removeClass('tmv-controls-hide', this.controlsWrapper_)
-        })
+    showControls = () => {
+        this.removeClass('tmv-controls-hide', this.controlsWrapper_)
+        this.clearTimer()
+
+        this.setTimer(() => {
+            this.hideControls()
+        }, 3000)
+    }
+
+    hideControls = () => {
+        !this.player_.paused && this.addClass('tmv-controls-hide', this.controlsWrapper_)
+        this.clearTimer()
     }
 
     render() {
+        this.showControls()
         this.initControlMarkEvents()
     }
 }
