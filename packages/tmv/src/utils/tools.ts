@@ -181,16 +181,18 @@ export async function videoInitialize({ type = 'mp4', autoPlay = false, video }:
                         video.isLive = isLive
                     })
 
-                    video.addEventListener('play', () => {
-                        const duration = video.duration
+                    if (video.isLive) {
+                        video.addEventListener('play', () => {
+                            const duration = video.duration
 
-                        if (duration && duration - 18 > 0) {
-                            const timer = setTimeout(() => {
-                                video.currentTime = duration - 18
-                                clearTimeout(timer)
-                            }, 3000)
-                        }
-                    })
+                            if (duration && duration - 18 > 0) {
+                                const timer = setTimeout(() => {
+                                    video.currentTime = duration - 18
+                                    clearTimeout(timer)
+                                }, 3000)
+                            }
+                        })
+                    }
 
                     return hls
                 }

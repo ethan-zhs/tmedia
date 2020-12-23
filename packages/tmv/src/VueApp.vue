@@ -37,7 +37,7 @@ export default {
             default: true
         },
 
-        platform: {
+        device: {
             default: 'pc'
         },
         mute: {
