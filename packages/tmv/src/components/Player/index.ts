@@ -32,7 +32,18 @@ class Player extends Component {
         this.appendContent(this.player_)
 
         // 置换媒体Element为tmv视频播放器组件
-        media.parentNode?.replaceChild(this.el(), media)
+        let replaceNode = media
+
+        // 如果已经初始化过了player，需删除原有的dom
+        if (
+            media.parentNode &&
+            media.parentNode.classList &&
+            media.parentNode.classList.contains('tmv-video-wrapper')
+        ) {
+            replaceNode = media.parentNode
+        }
+
+        replaceNode.parentNode?.replaceChild(this.el(), replaceNode)
 
         if (this.options_.controls !== false) {
             const controls = new Controls(this.player_, this.options_)
@@ -41,7 +52,20 @@ class Player extends Component {
 
         this.errorEl_ = new Error(this.player_, this.options_)
         this.appendContent(this.errorEl_.el())
-        // this.on(this.player_, 'error', this.mediaError)
+
+        // video错误处理
+        this.on(this.player_, 'error', () => {
+            const error = this.player_.error
+
+            if (
+                error.code === error.MEDIA_ERR_NETWORK ||
+                error.code === error.MEDIA_ERR_SRC_NOT_SUPPORTED
+                //  || error.code === error.MEDIA_ERR_DECODE ||
+                // error.code === error.MEDIA_ERR_ABORTED
+            ) {
+                this.mediaError(error)
+            }
+        })
     }
 
     /**

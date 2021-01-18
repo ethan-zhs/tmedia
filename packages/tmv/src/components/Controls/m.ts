@@ -1,6 +1,6 @@
 import Component from '../Component'
 
-import '../NextVideo'
+import '../PlayBtn'
 import '../FullScreen'
 import '../Timer'
 import '../Progress'
@@ -46,8 +46,8 @@ class MobileControls extends Component {
 
         this.appendContent(this.controlsWrapper_)
         this.appendContent(controlsBar, this.controlsWrapper_)
-        this.initChildren(['BigPlayBtn'], this.controlsWrapper_)
-        this.initChildren(['NextVideo', 'Timer', 'Progress', 'Fullscreen'], controlsBar)
+        // this.initChildren(['BigPlayBtn'], this.controlsWrapper_)
+        this.initChildren(['PlayBtn', 'Timer', 'Progress', 'Fullscreen'], controlsBar)
 
         this.on(this.player_, 'play', () => this.handleMarkClick(true))
 
