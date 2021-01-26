@@ -37,10 +37,13 @@ class Progress extends Component {
         })
 
         this.player_.addEventListener('durationchange', () => {
-            this.isLive_ = this.player_.isLive || !this.player_.duration || this.player_.duration === Infinity
+            this.isLive_ = this.player_.isLive || this.player_.duration === Infinity
 
             if (this.isLive_) {
                 this.html('<div class="tmv-progress-base"></div>')
+            } else {
+                this.html('')
+                this.renderProgress()
             }
         })
     }
@@ -143,8 +146,7 @@ class Progress extends Component {
         } catch (err) {}
     }
 
-    render() {
-        this.addClass('tmv-controls-progress-bar')
+    renderProgress = () => {
         const progressBase = this.createEl('div', { class: 'tmv-progress-base' })
         this.progressHoverElem_ = this.createEl('div', { class: 'tmv-progress-hover' })
         this.progressBufferElem_ = this.createEl('div', { class: 'tmv-progress-buffer' })
@@ -163,6 +165,11 @@ class Progress extends Component {
         this.on(this.el(), 'click', this.slideMoveOrClick)
         this.on(this.progressPointElem_, 'mousedown', this.slideStart)
         this.on(this.progressPointElem_, 'touchstart', this.slideStart)
+    }
+
+    render() {
+        this.addClass('tmv-controls-progress-bar')
+        this.renderProgress()
 
         this.handleProgressChange()
     }

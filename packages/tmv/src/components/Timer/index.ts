@@ -29,7 +29,7 @@ class Timer extends Component {
         })
 
         this.on(this.player_, 'durationchange', () => {
-            const isLive = this.player_.isLive || !this.player_.duration || this.player_.duration === Infinity
+            const isLive = this.player_.isLive || this.player_.duration === Infinity
 
             separator.innerHTML = '/'
             duration.innerHTML = timeFormat(isLive ? 0 : this.player_.duration)
@@ -40,8 +40,8 @@ class Timer extends Component {
                 this.addClass('tmv-hide', duration)
                 this.removeClass('tmv-hide', liveBadge)
             } else {
-                this.removeClass('tmv-hide', separator)
-                this.removeClass('tmv-hide', duration)
+                this.player_.duration && this.removeClass('tmv-hide', separator)
+                this.player_.duration && this.removeClass('tmv-hide', duration)
                 this.addClass('tmv-hide', liveBadge)
             }
         })

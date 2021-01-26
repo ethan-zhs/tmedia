@@ -7,6 +7,10 @@
         :autoplay="autoPlay"
         playsinline
         webkit-playsinline="true"
+        x-webkit-airplay="true"
+        x5-video-player-type="h5"
+        x5-video-player-fullscreen="true"
+        x5-video-orientation="portraint"
     ></video>
 </template>
 

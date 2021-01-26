@@ -26,6 +26,10 @@ class Tmvr extends React.Component<any, any> {
     componentDidMount() {
         this.video = document.getElementById(this.videoId)
         this.video.setAttribute('webkit-playsinline', 'true')
+        this.video.setAttribute('x-webkit-airplay', 'true')
+        this.video.setAttribute('x5-video-player-type', 'h5')
+        this.video.setAttribute('x5-video-player-fullscreen', 'true')
+        this.video.setAttribute('x5-video-orientation', 'portraint')
 
         this.tmv = new Tmv(this.props)
         this.tmv.attachMedia(this.video)

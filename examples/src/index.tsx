@@ -9,9 +9,15 @@ export default class App extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const video = document.getElementById('tmv')
+        const video: any = document.getElementById('tmv')
+        video.setAttribute('webkit-playsinline', 'true')
+        video.setAttribute('x-webkit-airplay', 'true')
+        video.setAttribute('x5-video-player-type', 'h5')
+        video.setAttribute('x5-video-player-fullscreen', 'true')
+        video.setAttribute('x5-video-orientation', 'portraint')
+
         this.tmv = new Tmv({ 
-            device: 'pc',
+            device: 'mobile',
             type: 'hls',
             autoPlay: true, 
             toNextVideo: () => { alert('下一个视频回调函数') },
@@ -47,7 +53,7 @@ export default class App extends React.Component<any, any> {
                 <h1> JS Components </h1>
                 <div className="video-demo">
                     <h2>JS视频组件</h2>
-                    <video id="tmv" src="https://tcdn.itouchtv.cn/live/gdws.m3u8?t_token=f04c0e8129482f6a517866f0bcbec3f0-O7sJrLNiZfo7mGehqr7KLG3o8bIQbfI0TpODNU27YEWDvuoQt9%2BTYnDOx%2FIxlMmt8%2Fw952Uf50NZ%2BX%2BcY9cuycRmIhfr1vfc3kq92ILVZyqIEt7uxh7OFbVQZsPFOx%2BbQTFgIM6O5oyAFY%2FewE15uoyKyH55MJBXrnA%2B8G0f0ux%2FzwWZcl3ZZKFSbPUVNf32"></video>
+                    <video id="tmv" src="https://nclive.grtn.cn/tvs5/sd/live.m3u8?_upt=89fcc32d1611663000&auth_key=1611657992-0-0-f570133c9e5293d0968c2b358acd38c1"></video>
                 </div>
                 <div className="audio-demo">
                     <h2>JS音频组件</h2>

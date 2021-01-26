@@ -53,8 +53,6 @@ class Loading extends Component {
         this.player_.addEventListener('loadstart', this.startLoading)
         this.player_.addEventListener('loadedmetadata', this.cancelLoading)
         this.player_.addEventListener('canplay', this.cancelLoading)
-
-        this.setState({ a: 1 })
     }
 }
 

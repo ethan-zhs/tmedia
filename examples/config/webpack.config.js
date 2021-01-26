@@ -104,10 +104,10 @@ module.exports = {
             chunksSortMode: 'none',
             chunks: ['manifest', 'vendor', path.join(__dirname, '../src/index.js')],
             hash: true
+        }),
+        new vConsolePlugin({
+            enable: true
         })
-        // new vConsolePlugin({
-        //     enable: true
-        // })
     ],
 
     devServer: {
