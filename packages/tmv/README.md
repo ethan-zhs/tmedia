@@ -88,6 +88,7 @@ import '@tmedia/tmv/dist/tmvv.css'
 | definition | array | null | 画质选择列表, 数据结构`[{name: 'hd', cName: '高清', url: ''},{name: 'sd', cName: '标清', url: ''}]` | 是 |
 | playbackRateList | array | null | 播放速率列表, 数据结构`[{value: '1', default: true},{value: '1.5'}]` | 是 |
 | toNextVideo | function | null | 点击下一条或播放结束回调函数 | 是 |
+| castScreen | function | null, 当有值时显示投屏 | 触发投屏回调 | 是 |
 
 
 ## Properties

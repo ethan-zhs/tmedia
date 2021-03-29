@@ -33,7 +33,7 @@ class Tmvr extends React.Component<any, any> {
 
         this.tmv = new Tmv(this.props)
         this.tmv.attachMedia(this.video)
-        this.tmv.load()   
+        this.tmv.load()
     }
 
     // url更新后重load视频

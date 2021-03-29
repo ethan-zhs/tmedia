@@ -126,7 +126,6 @@ export function getDevice() {
     const ua = navigator.userAgent
     const isWindowsPhone = /(?:Windows Phone)/.test(ua)
     const isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone
-    const isApp = /(?:touchtv)/.test(ua)
     const isAndroid = /(?:Android)/.test(ua)
     const isFireFox = /(?:Firefox)/.test(ua)
     // const isChrome = /(?:Chrome|CriOS)/.test(ua)

@@ -5,6 +5,7 @@ import '../FullScreen'
 import '../Timer'
 import '../Progress'
 import '../BigPlayBtn'
+import '../CastScreen'
 
 class MobileControls extends Component {
     controlsWrapper_: any
@@ -47,6 +48,9 @@ class MobileControls extends Component {
         this.appendContent(this.controlsWrapper_)
         this.appendContent(controlsBar, this.controlsWrapper_)
         // this.initChildren(['BigPlayBtn'], this.controlsWrapper_)
+
+        // 添加投屏按钮
+        this.options_.castScreen && this.initChildren(['CastScreen'], this.controlsWrapper_)
         this.initChildren(['PlayBtn', 'Timer', 'Progress', 'Fullscreen'], controlsBar)
 
         this.on(this.player_, 'play', () => this.handleMarkClick(true))

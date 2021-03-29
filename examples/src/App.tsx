@@ -25,8 +25,11 @@ export default class App extends React.Component<any, any> {
                         toNextVideo={() => {
                             alert('下一个视频的回调')
                         }}
-                        platform="mobile"
+                        device="mobile"
                         type="mp4"
+                        // castScreen={() => {
+                        //     alert('触发投屏')
+                        // }}
                         // controls={false}
                         autoPlay={true}
                         // mute={true}

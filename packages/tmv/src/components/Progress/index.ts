@@ -32,7 +32,7 @@ class Progress extends Component {
                 }%`
 
                 this.progressBarElem_.style.width = `${(this.player_.currentTime / this.player_.duration) * 100}%`
-                this.progressPointElem_.style.transform = `translate(${this.progressBarElem_.clientWidth}px ,-50%)`
+                // this.progressPointElem_.style.transform = `translate(${this.progressBarElem_.clientWidth}px ,-50%)`
             }
         })
 
@@ -87,6 +87,7 @@ class Progress extends Component {
         }
 
         e.stopPropagation()
+        e.preventDefault()
         const pageX = e.pageX || e.targetTouches[0].pageX
 
         const pos: any = this.getProgressPos(pageX)
@@ -95,7 +96,7 @@ class Progress extends Component {
 
         this.progressBarElem_.style.width = `${pos.percent * 100}%`
         this.progressTimeElem_.style.left = `${pos.hoveredTimePos}px`
-        this.progressPointElem_.style.transform = `translate(${this.progressBarElem_.clientWidth}px ,-50%)`
+        // this.progressPointElem_.style.transform = `translate(${this.progressBarElem_.clientWidth}px ,-50%)`
     }
 
     /**
@@ -156,9 +157,10 @@ class Progress extends Component {
 
         this.appendContent(this.progressHoverElem_, progressBase)
         this.appendContent(this.progressBufferElem_, progressBase)
+        this.appendContent(this.progressPointElem_, this.progressBarElem_)
         this.appendContent(this.progressBarElem_, progressBase)
         this.appendContent(progressBase)
-        this.appendContent(this.progressPointElem_)
+        // this.appendContent(this.progressPointElem_)
         this.appendContent(this.progressTimeElem_)
 
         this.on(this.el(), 'mousemove', this.progressMove)
